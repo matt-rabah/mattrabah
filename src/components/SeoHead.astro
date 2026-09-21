@@ -1,0 +1,162 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  article?: {
+    publishedTime: string;
+    modifiedTime?: string;
+    author?: string;
+    category?: string;
+    tags?: string[];
+  };
+}
+
+const {
+  title,
+  description = "Selected work, tools, and writing by Matt Rabah, a Detroit-based customer experience, customer success, and implementation systems professional.",
+  image = "/favicon.svg",
+  article,
+} = Astro.props;
+
+const canonicalUrl = new URL(
+  Astro.url.pathname,
+  Astro.site || "https://mattrabah.com",
+);
+const siteTitle = "Matt Rabah";
+const fullTitle =
+  title === siteTitle
+    ? `${siteTitle} — Customer Systems & AI Workflows`
+    : `${title} — ${siteTitle}`;
+
+const keywords = [
+  "customer lifecycle engineering",
+  "ai customer success operations",
+  "customer experience architecture",
+  "implementation engineering",
+  "retention frameworks",
+  "account health signals",
+  "salesforce administrator",
+  "cadence lab",
+  "detroit customer experience",
+  "b2b saas onboarding",
+  "practical ai workflows",
+].join(", ");
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Matt Rabah",
+  url: "https://mattrabah.com",
+  jobTitle: "Customer Experience & Implementation Professional",
+  worksFor: {
+    "@type": "Organization",
+    name: "Cadence Lab",
+    url: "https://cadencelab.co",
+  },
+  alumniOf: [
+    {
+      "@type": "EducationalOrganization",
+      name: "Michigan State University — Eli Broad College of Business",
+    },
+    {
+      "@type": "EducationalOrganization",
+      name: "Oakland University",
+    },
+  ],
+  knowsAbout: [
+    "Customer Success Operations",
+    "Customer Lifecycle Design",
+    "AI Workflow Architecture",
+    "Implementation Engineering",
+    "Salesforce Administration",
+    "Account Health Signals",
+    "Retention Modeling",
+  ],
+  sameAs: [
+    "https://www.linkedin.com/in/mattrabah/",
+    "https://github.com/matt-rabah",
+  ],
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Matt Rabah",
+  url: "https://mattrabah.com",
+  description: description,
+  author: {
+    "@type": "Person",
+    name: "Matt Rabah",
+  },
+};
+
+const articleSchema = article
+  ? {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: title,
+      description: description,
+      datePublished: article.publishedTime,
+      dateModified: article.modifiedTime || article.publishedTime,
+      author: {
+        "@type": "Person",
+        name: article.author || "Matt Rabah",
+        url: "https://mattrabah.com",
+      },
+      publisher: {
+        "@type": "Person",
+        name: "Matt Rabah",
+      },
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": canonicalUrl.href,
+      },
+    }
+  : null;
+---
+
+<!-- Canonical & Essential Meta -->
+<link rel="canonical" href={canonicalUrl.href} />
+<meta name="description" content={description} />
+<meta name="keywords" content={keywords} />
+<meta name="author" content="Matt Rabah" />
+<meta
+  name="robots"
+  content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+/>
+
+<!-- Open Graph -->
+<meta property="og:site_name" content={siteTitle} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl.href} />
+<meta property="og:type" content={article ? "article" : "website"} />
+<meta property="og:locale" content="en_US" />
+<meta property="og:image" content={new URL(image, canonicalUrl).href} />
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={new URL(image, canonicalUrl).href} />
+<meta name="twitter:creator" content="@mattrabah" />
+
+<!-- Structured Data (JSON-LD) -->
+<script
+  is:inline
+  type="application/ld+json"
+  set:html={JSON.stringify(websiteSchema)}
+></script>
+<script
+  is:inline
+  type="application/ld+json"
+  set:html={JSON.stringify(personSchema)}
+></script>
+{articleSchema && (
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify(articleSchema)}
+  ></script>
+)}

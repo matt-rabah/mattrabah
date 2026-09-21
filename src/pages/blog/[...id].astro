@@ -15,7 +15,14 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description}>
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  article={{
+    publishedTime: post.data.date.toISOString(),
+    category: post.data.category,
+  }}
+>
   <article class="container article">
     <a href="/blog">← All writing</a>
     <header>

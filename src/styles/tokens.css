@@ -192,42 +192,49 @@
   --max-copy: 40rem;
   --max-narrow: 34rem;
 
+  --spring-snappy: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --spring-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --glow-cyan: 0 0 28px -4px rgba(0, 229, 255, 0.35);
+  --glow-crimson: 0 0 28px -4px rgba(240, 68, 86, 0.35);
+  --neon-cyan: #00e5ff;
+  --neon-crimson: #f04456;
+
   --gutter: clamp(1.5rem, 5vw, 4.5rem);
 }
 
 /* ==========================================================================
-   DARK — COOL GRAPHITE, NOT WARM ESPRESSO
+   DARK — SLEEK OBSIDIAN & CYBER-MINIMALISM
    ========================================================================== */
 
 :root[data-theme="dark"] {
-  --color-surface: #111416;
-  --color-surface-sunken: #0d1012;
-  --color-surface-raised: #1a1f23;
-  --color-surface-hover: #20262b;
-  --color-surface-strong: #252c31;
+  --color-surface: #0a0d0f;
+  --color-surface-sunken: #06080a;
+  --color-surface-raised: #11151a;
+  --color-surface-hover: #171d24;
+  --color-surface-strong: #1f2730;
 
-  --color-text: #edf1f2;
-  --color-text-subtle: rgba(237, 241, 242, 0.84);
-  --color-text-subtlest: rgba(237, 241, 242, 0.72);
-  --color-text-faint: rgba(237, 241, 242, 0.58);
-  --color-text-disabled: rgba(237, 241, 242, 0.36);
-  --color-text-inverse: #111416;
-  --color-text-accent: #f05a6b;
+  --color-text: #f0f4f7;
+  --color-text-subtle: rgba(240, 244, 247, 0.86);
+  --color-text-subtlest: rgba(240, 244, 247, 0.65);
+  --color-text-faint: rgba(240, 244, 247, 0.45);
+  --color-text-disabled: rgba(240, 244, 247, 0.28);
+  --color-text-inverse: #0a0d0f;
+  --color-text-accent: #00e5ff;
 
-  --color-link: #edf1f2;
-  --color-link-hover: #f05a6b;
+  --color-link: #f0f4f7;
+  --color-link-hover: #00e5ff;
 
-  --color-border: rgba(237, 241, 242, 0.1);
-  --color-border-strong: rgba(237, 241, 242, 0.2);
-  --color-border-heavy: rgba(237, 241, 242, 0.3);
-  --color-border-accent: rgba(240, 90, 107, 0.35);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.16);
+  --color-border-heavy: rgba(255, 255, 255, 0.26);
+  --color-border-accent: rgba(0, 229, 255, 0.4);
 
-  --color-focus: #f05a6b;
+  --color-focus: #00e5ff;
 
-  --color-accent: #f05a6b;
-  --color-accent-hover: #ff7482;
-  --color-accent-bg: rgba(240, 90, 107, 0.13);
-  --color-on-accent: #111416;
+  --color-accent: #00e5ff;
+  --color-accent-hover: #40ebff;
+  --color-accent-bg: rgba(0, 229, 255, 0.12);
+  --color-on-accent: #0a0d0f;
 
   --color-footer-bg: var(--color-surface);
   --color-footer-text: var(--color-text);
@@ -235,20 +242,20 @@
   --color-footer-text-muted: var(--color-text-subtlest);
   --color-footer-border: var(--color-border);
 
-  --status-live-bg: rgba(75, 128, 93, 0.2);
-  --status-live-text: #a2d2ad;
+  --status-live-bg: rgba(0, 229, 255, 0.15);
+  --status-live-text: #66efff;
 
-  --status-prog-bg: rgba(237, 241, 242, 0.08);
-  --status-prog-text: rgba(237, 241, 242, 0.78);
+  --status-prog-bg: rgba(240, 68, 86, 0.15);
+  --status-prog-text: #ff7585;
 
-  --status-plan-bg: rgba(120, 133, 150, 0.22);
-  --status-plan-text: #c5ced9;
+  --status-plan-bg: rgba(160, 175, 195, 0.15);
+  --status-plan-text: #d0dbe7;
 
-  --status-draft-bg: rgba(237, 241, 242, 0.06);
-  --status-draft-text: rgba(237, 241, 242, 0.72);
+  --status-draft-bg: rgba(255, 255, 255, 0.06);
+  --status-draft-text: rgba(240, 244, 247, 0.65);
 
-  --shadow-card: none;
-  --shadow-lift: none;
+  --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+  --shadow-lift: 0 12px 32px -4px rgba(0, 0, 0, 0.7), 0 0 24px -6px rgba(0, 229, 255, 0.2);
 
   --focus-ring: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-focus);
 }

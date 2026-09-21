@@ -1,6 +1,7 @@
 ---
 import "../styles/base.css";
 import SeoHead from "../components/SeoHead.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
 
 export interface Props {
   title: string;
@@ -36,11 +37,27 @@ const nav = [
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title === SITE ? `${SITE} — Selected Work` : `${title} — ${SITE}`}</title>
+    <meta name="color-scheme" content="light dark" />
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem("theme");
+          const prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+          ).matches;
+          const theme = stored ? stored : prefersDark ? "dark" : "light";
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+        } catch (_) {
+          document.documentElement.dataset.theme = "dark";
+        }
+      })();
+    </script>
     <meta name="theme-color" content="#090909" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <SeoHead title={title} description={description} article={article} />
@@ -51,9 +68,12 @@ const nav = [
     </a>
     <div class="portfolio-shell">
       <aside class="profile-panel" aria-label="Matt Rabah profile">
-        <a class="profile-name" href="/" aria-label={`${SITE}, home`}>
-          matt rabah<span aria-hidden="true">•</span>
-        </a>
+        <div class="profile-header">
+          <a class="profile-name" href="/" aria-label={`${SITE}, home`}>
+            matt rabah<span aria-hidden="true">•</span>
+          </a>
+          <ThemeToggle />
+        </div>
         {home ? (
           <h1 class="profile-title">Customer experience, in practice.</h1>
         ) : (

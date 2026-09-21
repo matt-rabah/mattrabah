@@ -1,0 +1,190 @@
+---
+/**
+ * ThemeToggle — accessible light/dark theme switch with smooth icon transition.
+ * Uses local storage and syncs with system preference and CSS variables.
+ */
+export interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<button
+  id="theme-toggle"
+  class:list={["theme-toggle", className]}
+  type="button"
+  aria-label="Switch to light mode"
+  title="Toggle light/dark theme"
+>
+  <span class="theme-toggle-icon theme-toggle-icon--sun" aria-hidden="true">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2"></path>
+      <path d="M12 20v2"></path>
+      <path d="m4.93 4.93 1.41 1.41"></path>
+      <path d="m17.66 17.66 1.41 1.41"></path>
+      <path d="M2 12h2"></path>
+      <path d="M20 12h2"></path>
+      <path d="m6.34 17.66-1.41 1.41"></path>
+      <path d="m19.07 4.93-1.41 1.41"></path>
+    </svg>
+  </span>
+  <span class="theme-toggle-icon theme-toggle-icon--moon" aria-hidden="true">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+    </svg>
+  </span>
+  <span class="sr-only">Toggle theme</span>
+</button>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text-subtle);
+    cursor: pointer;
+    transition:
+      border-color var(--dur-1) var(--ease),
+      background-color var(--dur-1) var(--ease),
+      color var(--dur-1) var(--ease),
+      transform var(--dur-1) var(--ease);
+    flex-shrink: 0;
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--color-border-strong);
+    color: var(--color-text);
+    background: var(--color-surface-hover);
+    transform: scale(1.05);
+  }
+
+  .theme-toggle:active {
+    transform: scale(0.96);
+  }
+
+  .theme-toggle-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      transform var(--dur-2) var(--ease),
+      opacity var(--dur-2) var(--ease);
+  }
+
+  .theme-toggle-icon svg {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+
+  /* When theme is dark, show sun (to switch to light) */
+  :global([data-theme="dark"]) .theme-toggle-icon--sun {
+    display: inline-flex;
+  }
+  :global([data-theme="dark"]) .theme-toggle-icon--moon {
+    display: none;
+  }
+
+  /* When theme is light, show moon (to switch to dark) */
+  :global([data-theme="light"]) .theme-toggle-icon--sun {
+    display: none;
+  }
+  :global([data-theme="light"]) .theme-toggle-icon--moon {
+    display: inline-flex;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+</style>
+
+<script>
+  function setupThemeToggle() {
+    const toggles =
+      document.querySelectorAll<HTMLButtonElement>(".theme-toggle");
+
+    function updateAria(theme: "light" | "dark") {
+      toggles.forEach((btn) => {
+        const nextMode = theme === "dark" ? "light" : "dark";
+        btn.setAttribute("aria-label", `Switch to ${nextMode} mode`);
+        btn.setAttribute("title", `Switch to ${nextMode} mode`);
+      });
+    }
+
+    const currentTheme =
+      document.documentElement.dataset.theme === "light" ? "light" : "dark";
+    updateAria(currentTheme);
+
+    toggles.forEach((btn) => {
+      btn.onclick = () => {
+        const activeTheme =
+          document.documentElement.dataset.theme === "light" ? "light" : "dark";
+        const nextTheme = activeTheme === "dark" ? "light" : "dark";
+
+        document.documentElement.dataset.theme = nextTheme;
+        document.documentElement.style.colorScheme = nextTheme;
+
+        try {
+          localStorage.setItem("theme", nextTheme);
+        } catch (_) {}
+
+        updateAria(nextTheme);
+      };
+    });
+
+    // Listen to OS theme changes if user has no explicit preference pinned
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (e) => {
+        let hasStored = false;
+        try {
+          hasStored = Boolean(localStorage.getItem("theme"));
+        } catch (_) {}
+
+        if (!hasStored) {
+          const sysTheme = e.matches ? "dark" : "light";
+          document.documentElement.dataset.theme = sysTheme;
+          document.documentElement.style.colorScheme = sysTheme;
+          updateAria(sysTheme);
+        }
+      });
+  }
+
+  setupThemeToggle();
+  document.addEventListener("astro:after-swap", setupThemeToggle);
+</script>

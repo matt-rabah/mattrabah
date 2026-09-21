@@ -1,29 +1,27 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const posts = [
-  {
-    title: "Customer handoffs fail before anyone notices",
-    dek: "A practical look at where ownership breaks down between sales, onboarding, success, and renewal.",
-    href: "/blog/2026/05/customer-handoffs/",
-    date: "May 2026",
-    type: "Operating Note",
-  },
-  {
-    title: "Account health is not a color",
-    dek: "Why health scoring should explain risk, ownership, next action, and commercial consequence.",
-    href: "/blog/2026/05/account-health/",
-    date: "May 2026",
-    type: "Framework",
-  },
-];
+import { getCollection } from "astro:content";
+const posts = (await getCollection("blog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .map(({ id, data }) => ({
+    title: data.title,
+    dek: data.description,
+    href: `/blog/${id}/`,
+    date: data.date.toLocaleDateString("en-US", {
+      month: "long",
+      year: "numeric",
+      timeZone: "UTC",
+    }),
+    type: data.category,
+  }));
 ---
 
 <BaseLayout
-  title="Writing — Matt Rabah"
+  title="Writing"
   description="Writing on customer experience, implementation, account health, lifecycle systems, and practical AI workflows."
 >
-  <main id="main" class="blog-index">
+  <div class="blog-index">
     <section class="container">
       <header class="blog-index-hero">
         <p class="eyebrow">Writing</p>
@@ -38,27 +36,25 @@ const posts = [
       </header>
 
       <div class="blog-list" aria-label="Published writing">
-        {
-          posts.map((post) => (
-            <article class="blog-list-item">
-              <a class="blog-list-link" href={post.href}>
-                <p class="blog-list-date">{post.date}</p>
+        {posts.map((post) => (
+          <article class="blog-list-item">
+            <a class="blog-list-link" href={post.href}>
+              <p class="blog-list-date">{post.date}</p>
 
-                <div>
-                  <p class="meta">{post.type}</p>
-                  <h2 class="blog-list-title">{post.title}</h2>
-                </div>
+              <div>
+                <p class="meta">{post.type}</p>
+                <h2 class="blog-list-title">{post.title}</h2>
+              </div>
 
-                <p class="blog-list-dek">{post.dek}</p>
+              <p class="blog-list-dek">{post.dek}</p>
 
-                <span class="blog-list-arrow" aria-hidden="true">
-                  →
-                </span>
-              </a>
-            </article>
-          ))
-        }
+              <span class="blog-list-arrow" aria-hidden="true">
+                →
+              </span>
+            </a>
+          </article>
+        ))}
       </div>
     </section>
-  </main>
+  </div>
 </BaseLayout>

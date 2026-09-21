@@ -104,34 +104,4 @@ import Stat from "../../components/stat.astro";
       </div>
     </div>
   </section>
-
-  <style>
-    .hero {
-      padding-block: clamp(var(--space-9), 14vw, 9rem) var(--space-8);
-    }
-    .stat-row {
-      display: grid;
-      grid-template-columns: repeat(4, auto);
-      gap: var(--space-7);
-      justify-content: start;
-    }
-    @media (max-width: 40rem) {
-      .stat-row {
-        grid-template-columns: 1fr 1fr;
-        gap: var(--space-6);
-      }
-    }
-    .pull {
-      margin: 0;
-      padding: var(--space-2) 0 var(--space-2) var(--space-6);
-      border-left: 2px solid var(--color-accent);
-      font-family: var(--font-display);
-      font-style: italic;
-      font-weight: var(--w-reg);
-      font-size: var(--fs-h3);
-      line-height: 1.3;
-      color: var(--color-text);
-      max-width: 30ch;
-    }
-  </style>
 </BaseLayout>

@@ -791,8 +791,8 @@ Generated via mattrabah.com/tools`;
     box-shadow: 0 0 8px var(--neon-cyan);
   }
   .tab-badge {
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
     padding: 0.15rem 0.45rem;
     border-radius: var(--radius-pill);
     background: rgba(0, 229, 255, 0.12);
@@ -827,9 +827,9 @@ Generated via mattrabah.com/tools`;
   }
   .sub-label {
     display: inline-block;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--fs-meta);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.04em;
     color: var(--neon-cyan);
     margin-bottom: var(--space-2);
   }
@@ -889,7 +889,7 @@ Generated via mattrabah.com/tools`;
   }
   .param-title {
     display: block;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--fs-meta);
     font-weight: 600;
     color: var(--color-text);
@@ -975,13 +975,13 @@ Generated via mattrabah.com/tools`;
     gap: var(--space-2);
   }
   .telemetry-tag {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--fs-meta);
     letter-spacing: 0.06em;
     color: var(--color-text-faint);
   }
   .status-indicator {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--fs-meta);
     font-weight: 600;
   }
@@ -1007,15 +1007,15 @@ Generated via mattrabah.com/tools`;
   .score-ceiling {
     font-size: var(--fs-body-sm);
     color: var(--color-text-faint);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
   }
   .score-badge {
     display: inline-block;
     border: 1px solid;
     padding: 0.2rem 0.5rem;
     border-radius: var(--radius-sm);
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
     font-weight: 600;
     letter-spacing: 0.05em;
   }
@@ -1045,7 +1045,7 @@ Generated via mattrabah.com/tools`;
     background: color-mix(in srgb, var(--color-surface) 90%, rgba(0, 229, 255, 0.05));
   }
   .section-title {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--fs-meta);
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -1092,7 +1092,7 @@ Generated via mattrabah.com/tools`;
     padding-bottom: var(--space-3);
   }
   .active-count {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--fs-meta);
     color: var(--neon-crimson);
   }
@@ -1227,7 +1227,7 @@ Generated via mattrabah.com/tools`;
     to { transform: rotate(360deg); }
   }
   .engine-badge {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--fs-meta);
     color: var(--color-text-faint);
   }
@@ -1266,7 +1266,7 @@ Generated via mattrabah.com/tools`;
     border: 1px solid var(--neon-cyan);
     box-shadow: var(--glow-cyan);
     color: var(--color-text);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--fs-meta);
     padding: var(--space-3) var(--space-4);
     border-radius: var(--radius-pill);

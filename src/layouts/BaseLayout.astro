@@ -23,6 +23,7 @@ const {
 } = Astro.props;
 
 const year = new Date().getFullYear();
+const home = Astro.url.pathname === "/";
 
 const nav = [
   { href: "/work", label: "Work" },
@@ -35,493 +36,76 @@ const nav = [
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title === SITE ? `${SITE} — Selected Work` : `${title} — ${SITE}`}</title>
+    <meta name="theme-color" content="#090909" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-
     <SeoHead title={title} description={description} article={article} />
-
-    <script is:inline>
-      (() => {
-        let storedTheme;
-        try {
-          storedTheme = localStorage.getItem("theme");
-        } catch {}
-        const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
-        document.documentElement.dataset.theme = storedTheme
-          ? storedTheme
-          : prefersDark
-            ? "dark"
-            : "light";
-      })();
-    </script>
   </head>
-
   <body>
     <a class="skip-link" href="#main">
       Skip to content
     </a>
-
-    <header class="masthead">
-      <div class="container masthead-inner">
-        <a href="/" class="wordmark" aria-label={`${SITE}, home`}>
-          <span class="wordmark-mark" aria-hidden="true">
-            <span class="wordmark-m">M</span>
-            <span class="wordmark-r">R</span>
-          </span>
-
-          <span class="wordmark-system">
-            <span class="wordmark-name">Matt Rabah</span>
-          </span>
+    <div class="portfolio-shell">
+      <aside class="profile-panel" aria-label="Matt Rabah profile">
+        <a class="profile-name" href="/" aria-label={`${SITE}, home`}>
+          matt rabah<span aria-hidden="true">•</span>
         </a>
-
-        <nav class="nav" aria-label="Primary">
-          {nav.map((item) => (
-            <a
-              href={item.href}
-              aria-current={
-                Astro.url.pathname.startsWith(item.href) ? "page" : undefined
-              }
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
-
-        <div class="masthead-actions">
-          <button class="theme-btn" type="button" aria-label="Toggle theme">
-            <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="12" cy="12" r="4.2" fill="currentColor"></circle>
-              <g
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-              >
-                <path d="M12 2.5v2.6M12 18.9v2.6M21.5 12h-2.6M5.1 12H2.5M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8M18.4 18.4l-1.8-1.8M7.4 7.4 5.6 5.6"></path>
-              </g>
-            </svg>
-
-            <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M20 14.3A8 8 0 1 1 9.7 4 6.4 6.4 0 0 0 20 14.3Z"
-                fill="currentColor"
-              ></path>
-            </svg>
-          </button>
-
-          <button
-            class="nav-toggle"
-            type="button"
-            aria-label="Open menu"
-            aria-expanded="false"
-            aria-controls="mobile-nav"
-          >
-            <span></span>
-            <span></span>
-          </button>
-        </div>
-      </div>
-
-      <div id="mobile-nav" class="mobile-nav" hidden>
-        <div class="container stack-2">
-          {nav.map((item) => (
-            <a
-              href={item.href}
-              aria-current={
-                Astro.url.pathname.startsWith(item.href) ? "page" : undefined
-              }
-            >
-              {item.label}
-            </a>
-          ))}
-        </div>
-      </div>
-    </header>
-
-    <main id="main">
-      <slot />
-    </main>
-
-    <footer class="footer">
-      <div class="container footer-inner">
-        <div class="footer-brand stack-3">
-          <a href="/" class="footer-word">
-            Matt Rabah
-          </a>
-          <p class="body-sm" style="max-width:28ch">
-            Selected work in customer experience, implementation, and CRM. Based
-            in Detroit, Michigan.
-          </p>
-          <p class="meta" style="color:var(--color-text-accent)">
-            Open to new roles
-          </p>
-        </div>
-
-        <nav class="footer-col" aria-label="Site">
-          <p class="footer-col-title">Site</p>
-          {nav.map((item) => (
-            <a
-              href={item.href}
-              aria-current={
-                Astro.url.pathname.startsWith(item.href) ? "page" : undefined
-              }
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
-
-        <nav class="footer-col" aria-label="Contact">
-          <p class="footer-col-title">Contact</p>
-          <a href="mailto:rabah.matthew@gmail.com">Email</a>
-          <a
-            href="https://www.linkedin.com/in/mattrabah/"
-            target="_blank"
-            rel="me noopener"
-          >
-            LinkedIn
-          </a>
-        </nav>
-      </div>
-
-      <div class="container footer-base">
-        <p class="meta">
-          © {year} {SITE}
+        {home ? (
+          <h1 class="profile-title">Customer experience, in practice.</h1>
+        ) : (
+          <p class="profile-title">Customer experience, in practice.</p>
+        )}
+        <p class="profile-copy">
+          I’m Matt, a customer experience and implementation professional based
+          in Detroit. This is my work across customer success, CRM, and
+          practical AI.
         </p>
-        <p class="meta">Detroit, Michigan</p>
-      </div>
-    </footer>
-
-    <script is:inline>
-      document.querySelector(".theme-btn")?.addEventListener("click", () => {
-        const nextTheme =
-          document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-        document.documentElement.dataset.theme = nextTheme;
-        try {
-          localStorage.setItem("theme", nextTheme);
-        } catch {}
-      });
-
-      const navToggle = document.querySelector(".nav-toggle");
-      const mobileNav = document.querySelector(".mobile-nav");
-
-      navToggle?.addEventListener("click", () => {
-        const isOpen = navToggle.getAttribute("aria-expanded") === "true";
-        navToggle.setAttribute("aria-expanded", String(!isOpen));
-        navToggle.setAttribute(
-          "aria-label",
-          isOpen ? "Open menu" : "Close menu",
-        );
-
-        if (mobileNav) {
-          mobileNav.hidden = isOpen;
-        }
-      });
-    </script>
-    <style>
-      .masthead {
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        border-bottom: 1px solid var(--color-border);
-        background: color-mix(in srgb, var(--color-surface) 88%, transparent);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-      }
-
-      .masthead-inner {
-        display: flex;
-        align-items: center;
-        gap: var(--space-6);
-        min-height: 4.25rem;
-      }
-
-      .wordmark {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.85rem;
-        color: var(--color-text);
-        text-decoration: none;
-      }
-
-      .wordmark:hover {
-        color: var(--color-text);
-      }
-
-      .wordmark-mark {
-        position: relative;
-        display: inline-grid;
-        grid-template-columns: 1fr 1fr;
-        align-items: center;
-        width: 2.25rem;
-        height: 2.25rem;
-        overflow: hidden;
-        border: 1px solid var(--color-text);
-        border-radius: calc(var(--radius-sm) + 2px);
-        background: linear-gradient(
-          135deg,
-          var(--color-text) 0 49%,
-          color-mix(in srgb, var(--color-text) 92%, transparent) 49% 100%
-        );
-        color: var(--color-surface);
-        font-family: var(--font-wide);
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: -0.03em;
-        line-height: 1;
-      }
-
-      .wordmark-mark::after {
-        content: "";
-        position: absolute;
-        inset: 0.46rem;
-        border: 1px solid
-          color-mix(in srgb, var(--color-surface) 18%, transparent);
-        border-radius: 2px;
-        pointer-events: none;
-      }
-
-      .wordmark-m,
-      .wordmark-r {
-        position: relative;
-        z-index: 1;
-        display: grid;
-        place-items: center;
-        height: 100%;
-      }
-
-      .wordmark-m {
-        transform: translateX(0.08rem);
-      }
-
-      .wordmark-r {
-        transform: translateX(-0.08rem);
-        opacity: 0.9;
-      }
-
-      .wordmark-system {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.65rem;
-        min-width: 0;
-      }
-
-      .wordmark-name {
-        font-family: var(--font-wide);
-        font-size: 1.02rem;
-        font-weight: 600;
-        letter-spacing: -0.035em;
-        line-height: 1;
-        white-space: nowrap;
-      }
-
-      .nav {
-        display: flex;
-        gap: var(--space-6);
-        margin-inline-start: auto;
-      }
-
-      .nav a {
-        color: var(--color-text-subtle);
-        font-family: var(--font-sans);
-        font-size: var(--fs-body-sm);
-        font-weight: var(--w-med);
-        text-decoration: none;
-      }
-
-      .nav a:hover,
-      .nav a[aria-current="page"] {
-        color: var(--color-text);
-      }
-
-      .masthead-actions {
-        display: flex;
-        align-items: center;
-        gap: var(--space-3);
-      }
-
-      .theme-btn {
-        display: inline-grid;
-        place-items: center;
-        width: 2.15rem;
-        height: 2.15rem;
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-pill);
-        background: transparent;
-        color: var(--color-text-subtle);
-        cursor: pointer;
-        transition:
-          color var(--dur-1),
-          border-color var(--dur-1),
-          background-color var(--dur-1);
-      }
-
-      .theme-btn:hover {
-        border-color: var(--color-border-strong);
-        background: var(--color-surface-hover);
-        color: var(--color-text);
-      }
-
-      .theme-btn svg {
-        width: 1.15rem;
-        height: 1.15rem;
-      }
-
-      .i-moon {
-        display: none;
-      }
-
-      :root[data-theme="dark"] .i-sun {
-        display: none;
-      }
-
-      :root[data-theme="dark"] .i-moon {
-        display: block;
-      }
-
-      .nav-toggle {
-        display: none;
-        flex-direction: column;
-        gap: 5px;
-        align-items: center;
-        justify-content: center;
-        width: 2.4rem;
-        height: 2.4rem;
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-sm);
-        background: transparent;
-        cursor: pointer;
-      }
-
-      .nav-toggle span {
-        width: 1.1rem;
-        height: 1.5px;
-        background: var(--color-text);
-      }
-
-      .mobile-nav {
-        border-top: 1px solid var(--color-border);
-        padding-block: var(--space-4);
-      }
-
-      .mobile-nav a {
-        display: block;
-        padding: var(--space-2) 0;
-        color: var(--color-text);
-        font-family: var(--font-sans);
-        font-size: var(--fs-h4);
-        text-decoration: none;
-      }
-
-      .footer {
-        margin-top: var(--space-9);
-        border-top: 1px solid var(--color-footer-border);
-        background: var(--color-footer-bg);
-        color: var(--color-footer-text);
-      }
-
-      .footer-inner {
-        display: grid;
-        grid-template-columns: 1.6fr 1fr 1fr;
-        gap: var(--space-6);
-        padding-block: var(--space-8) var(--space-6);
-      }
-
-      .footer-word {
-        color: var(--color-footer-text);
-        font-family: var(--font-display);
-        font-size: 1.6rem;
-        font-weight: var(--w-semi);
-        letter-spacing: -0.02em;
-        text-decoration: none;
-      }
-
-      .footer-col {
-        display: grid;
-        gap: var(--space-3);
-        align-content: start;
-      }
-
-      .footer-col-title {
-        color: var(--color-footer-text-muted);
-        font-family: var(--font-mono);
-        font-size: var(--fs-meta);
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-      }
-
-      .footer-col a {
-        color: var(--color-footer-text-subtle);
-        font-size: var(--fs-body-sm);
-        text-decoration: none;
-      }
-
-      .footer-col a:hover {
-        color: var(--color-footer-text);
-      }
-
-      .footer-base {
-        display: flex;
-        justify-content: space-between;
-        gap: var(--space-4);
-        padding-block: var(--space-5);
-        border-top: 1px solid var(--color-footer-border);
-      }
-
-      @media (max-width: 46rem) {
-        .nav,
-        .masthead-cta {
-          display: none;
-        }
-
-        .nav-toggle {
-          display: flex;
-        }
-
-        .masthead-actions {
-          margin-inline-start: auto;
-        }
-
-        .wordmark {
-          gap: 0.65rem;
-        }
-
-        .wordmark-mark {
-          width: 2.05rem;
-          height: 2.05rem;
-          font-size: 0.66rem;
-        }
-
-        .wordmark-name {
-          font-size: 0.92rem;
-        }
-
-        .footer-inner {
-          grid-template-columns: 1fr 1fr;
-        }
-
-        .footer-brand {
-          grid-column: 1 / -1;
-        }
-      }
-
-      @media (max-width: 27rem) {
-        .wordmark-name {
-          max-width: 7.4rem;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .footer-inner {
-          grid-template-columns: 1fr;
-        }
-
-        .footer-base {
-          flex-direction: column;
-        }
-      }
-    </style>
+        <div class="profile-actions">
+          <a class="pill-button" href="/contact">
+            Get in touch <span aria-hidden="true">↗</span>
+          </a>
+          <a class="profile-resume" href="/resume">
+            Resume <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <div class="profile-companies">
+          <p>Selected experience</p>
+          <div>
+            <a href="/work#cadence-lab">Cadence Lab</a>
+            <a href="/work#shinola">Shinola</a>
+            <a href="/work#neurosync">NeuroSync</a>
+          </div>
+        </div>
+        <nav class="profile-nav" aria-label="Primary">
+          <a href="/" aria-current={home ? "page" : undefined}>
+            Overview
+          </a>
+          {nav.map((item) => (
+            <a
+              href={item.href}
+              aria-current={
+                Astro.url.pathname.startsWith(item.href) ? "page" : undefined
+              }
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+        <p class="profile-location">
+          Detroit, Michigan <span>© {year}</span>
+        </p>
+      </aside>
+      <main
+        id="main"
+        class:list={["portfolio-content", { "portfolio-content--home": home }]}
+        tabindex="-1"
+      >
+        <slot />
+      </main>
+    </div>
   </body>
 </html>

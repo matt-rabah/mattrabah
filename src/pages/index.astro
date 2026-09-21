@@ -1,9 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Button from "../components/Button.astro";
 import Lozenge from "../components/lozenge.astro";
-import Tag from "../components/ui/Tag.astro";
-import TiltCard from "../components/TiltCard.svelte";
 import { getCollection } from "astro:content";
 
 const work = [
@@ -64,711 +61,79 @@ const writing = (await getCollection("blog", ({ data }) => !data.draft))
     meta: data.category,
     href: `/blog/${id}/`,
   }));
+
+// Decorative cover artwork from the user-selected v0 portfolio template.
+const covers = [
+  "/images/portfolio/cadence-cover.webp",
+  "/images/portfolio/shinola-cover.webp",
+  "/images/portfolio/neurosync-cover.webp",
+];
 ---
 
 <BaseLayout title="Matt Rabah">
-  <section class="portfolio-intro">
-    <div class="container hero-content">
-      <div class="cyber-badge reveal reveal-1">
-        <span class="pulse-dot" aria-hidden="true"></span>
-        <span>Matt Rabah · Detroit, MI · Open to Roles</span>
-      </div>
-      <h1 class="display hero-title reveal reveal-2">
-        Customer experience,
-        <br />
-        <span class="gradient-text">in practice.</span>
-      </h1>
-      <p class="lead hero-lead reveal reveal-3">
-        Selected work in customer success, implementation architecture, and CRM
-        — across healthtech platforms, flagship retail, and independent advisory
-        at Cadence Lab.
-      </p>
-      <div class="hero-actions reveal reveal-3">
-        <Button href="/about" variant="accent" arrow>
-          About my background
-        </Button>
-        <Button href="/work" variant="ghost" arrow>
-          View case studies
-        </Button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Zel-inspired Operating Manifesto -->
-  <section class="section manifesto-section">
-    <div class="container">
-      <div class="manifesto-card">
-        <div class="manifesto-badge">
-          <span class="pulse-dot" aria-hidden="true"></span>
-          <span>Operating Philosophy</span>
-        </div>
-        <p class="manifesto-text">
-          <span class="manifesto-emphasis">
-            Customer experience is not a sentiment — it is an operating system.
-          </span>
-          I design the onboarding pathways, account health telemetry, and
-          retention models that turn chaotic post-sale handoffs into predictable
-          revenue and long-term customer trust. Every CRM field, customer
-          signal, and cadence should make ownership visible.
-        </p>
-        <div class="manifesto-metrics">
-          <div class="m-metric">
-            <span class="m-val">7+</span>
-            <span class="m-label">Years in CS & CX</span>
-          </div>
-          <div class="m-metric">
-            <span class="m-val">3</span>
-            <span class="m-label">Core Industries</span>
-          </div>
-          <div class="m-metric">
-            <span class="m-val">100%</span>
-            <span class="m-label">Defensible Outcomes</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--alt">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2 class="h2">Selected work</h2>
-          <p
-            class="meta"
-            style="color:var(--color-text-subtlest); margin-top:0.25rem;"
-          >
-            Real-world systems, diagnostics, and outcomes
-          </p>
-        </div>
-        <Button href="/work" variant="link" arrow>
-          All work
-        </Button>
-      </div>
-
-      <!-- Zel-inspired Tabular Project Table -->
-      <div class="zel-table-card">
-        <div class="zel-table-header" aria-hidden="true">
-          <span class="th-col th-project">Project</span>
-          <span class="th-col th-service">Discipline & Focus</span>
-          <span class="th-col th-duration">Scope / Engagement</span>
-          <span class="th-col th-year">Timeline</span>
-        </div>
-        <div class="zel-table-list">
-          {work.map((w) => (
-            <a href={w.href} class="zel-table-row">
-              <div class="td-col td-project">
-                <span class="row-num">{w.index}</span>
-                <div class="row-title-box">
-                  <span class="row-title">{w.title}</span>
-                  <span class="row-kicker">{w.kicker}</span>
-                </div>
-              </div>
-              <div class="td-col td-service">
-                <span class="service-text">{w.service}</span>
-              </div>
-              <div class="td-col td-duration">
-                <span class="duration-text">{w.duration}</span>
-              </div>
-              <div class="td-col td-year">
-                <span class="year-text">{w.year}</span>
-                <span class="row-arrow" aria-hidden="true">
-                  ↗
-                </span>
-              </div>
-            </a>
+  <section class="project-gallery" aria-label="Selected work">
+    {work.map((w, i) => (
+      <article class="project-cover">
+        <img
+          src={covers[i]}
+          alt=""
+          width="1200"
+          height="1000"
+          loading={i === 0 ? "eager" : "lazy"}
+          fetchpriority={i === 0 ? "high" : "auto"}
+        />
+        <div class="cover-tags">
+          {w.tags.map((tag) => (
+            <span>{tag}</span>
           ))}
         </div>
-      </div>
-
-      <!-- 3D Card Showcase -->
-      <div class="work-list">
-        {work.map((w) => (
-          <TiltCard
-            client:visible
-            href={w.href}
-            glowColor="cyan"
-            class="work-card-wrapper"
-          >
-            <div class="card-inner">
-              <span class="card-index meta" aria-hidden="true">
-                {w.index}
-              </span>
-              <p class="meta" style="color:var(--color-text-accent)">
-                {w.kicker}
-              </p>
-              <h3 class="h3" style="margin-top:var(--space-2)">
-                {w.title}
-              </h3>
-              <p class="body" style="margin-top:var(--space-3); max-width:46ch">
-                {w.line}
-              </p>
-              <div class="chip-row">
-                {w.tags.map((t) => (
-                  <Tag text={t} />
-                ))}
-              </div>
-              <span class="card-arrow" aria-hidden="true">
-                →
-              </span>
-            </div>
-          </TiltCard>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--alt">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2 class="h2">Tools & experiments</h2>
-          <p
-            class="meta"
-            style="color:var(--color-text-subtlest); margin-top:0.25rem;"
-          >
-            AI workflow prototypes built for customer operations
-          </p>
-        </div>
-        <Button href="/tools" variant="link" arrow>
-          Explore prototypes
-        </Button>
-      </div>
-      <div class="tool-row">
-        {tools.map((t) => (
-          <TiltCard
-            client:visible
-            href="/tools"
-            glowColor="crimson"
-            flat
-            class="tool-card-wrapper"
-          >
-            <div class="card-inner tool-card-inner">
-              <Lozenge label={t.label} status={t.status as any} />
-              <h3 class="h4" style="margin-top:var(--space-3)">
-                {t.title}
-              </h3>
-              <span class="card-arrow" aria-hidden="true">
-                →
-              </span>
-            </div>
-          </TiltCard>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2 class="h2">Writing</h2>
-        </div>
-        <Button href="/blog" variant="link" arrow>
-          All writing
-        </Button>
-      </div>
-      <div class="writing-list">
-        {writing.map((w, idx) => (
-          <a href={w.href} class="writing-row">
-            <span class="meta writing-idx">
-              {String(idx + 1).padStart(2, "0")}
-            </span>
-            <span class="writing-text">
-              <span class="meta" style="color:var(--color-text-accent)">
-                {w.meta}
-              </span>
-              <span class="h3 writing-title">{w.title}</span>
-            </span>
-            <span class="writing-arrow" aria-hidden="true">
-              &rarr;
-            </span>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Zel-inspired Contact Hero Section -->
-  <section class="section cta-section">
-    <div class="container">
-      <div class="cta-card">
-        <div class="cta-content">
-          <p class="eyebrow">Direct Contact</p>
-          <h2 class="display cta-title">
-            Let’s build better
-            <br />
-            <span class="gradient-text">customer systems.</span>
-          </h2>
-          <p class="body cta-lead">
-            Available for customer experience architecture, implementation
-            advisory, and hands-on CS systems leadership.
-          </p>
-          <div class="cta-actions">
-            <a
-              href="mailto:rabah.matthew@gmail.com"
-              class="btn btn--accent btn--md"
-            >
-              <span>Email Matt</span>
-              <span class="btn-arrow" aria-hidden="true">
-                →
-              </span>
-            </a>
-            <a
-              href="https://www.linkedin.com/in/mattrabah/"
-              target="_blank"
-              rel="noopener"
-              class="btn btn--ghost btn--md"
-            >
-              <span>LinkedIn</span>
-              <span class="btn-arrow" aria-hidden="true">
-                ↗
-              </span>
-            </a>
-            <a href="/resume" class="btn btn--ghost btn--md">
-              <span>View Resume</span>
-              <span class="btn-arrow" aria-hidden="true">
-                →
-              </span>
-            </a>
+        <div class="cover-caption">
+          <div>
+            <p>{w.kicker}</p>
+            <h2>{w.title}</h2>
+            <p>{w.service}</p>
           </div>
+          <a
+            class="pill-button"
+            href={w.href}
+            aria-label={`View ${w.title} case study`}
+          >
+            Case study <span aria-hidden="true">↗</span>
+          </a>
         </div>
-      </div>
+      </article>
+    ))}
+  </section>
+  <section class="content-panel">
+    <div class="section-heading">
+      <h2>Tools & experiments</h2>
+      <a href="/tools">Explore tools ↗</a>
+    </div>
+    <div class="tool-row">
+      {tools.map((t) => (
+        <a class="tool-card" href="/tools">
+          <Lozenge label={t.label} status={t.status as "live" | "planned"} />
+          <h3>{t.title}</h3>
+          <span aria-hidden="true">↗</span>
+        </a>
+      ))}
     </div>
   </section>
-
-  <style>
-    .portfolio-intro {
-      position: relative;
-      padding-block: clamp(4rem, 9vw, 7rem) clamp(3rem, 6vw, 4.5rem);
-      overflow: hidden;
-      border-bottom: 1px solid var(--color-border);
-    }
-    .hero-content {
-      position: relative;
-      z-index: 2;
-    }
-    .cyber-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.35rem 0.85rem;
-      border-radius: var(--radius-pill);
-      border: 1px solid var(--color-border-strong);
-      background: color-mix(
-        in srgb,
-        var(--color-surface-raised) 80%,
-        transparent
-      );
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      font-family: var(--font-mono);
-      font-size: var(--fs-meta);
-      color: var(--color-text-subtle);
-      margin-bottom: 1.5rem;
-    }
-    .pulse-dot {
-      width: 0.5rem;
-      height: 0.5rem;
-      border-radius: 50%;
-      background: var(--color-accent);
-      box-shadow: 0 0 10px var(--color-accent);
-      animation: pulse-glow 2.4s infinite ease-in-out;
-    }
-    @keyframes pulse-glow {
-      0%,
-      100% {
-        opacity: 0.4;
-        transform: scale(0.85);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.2);
-      }
-    }
-    .hero-title {
-      font-size: clamp(2.6rem, 5.5vw, 4.2rem);
-      font-weight: 600;
-      line-height: 1.08;
-      letter-spacing: -0.045em;
-      margin-block: 0.5rem 1.25rem;
-    }
-    .gradient-text {
-      background: linear-gradient(
-        135deg,
-        var(--color-text) 40%,
-        var(--color-text-accent) 100%
-      );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero-lead {
-      max-width: 54ch;
-      margin-bottom: 2rem;
-    }
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      align-items: center;
-    }
-    .section {
-      padding-block: 3rem;
-    }
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 1rem;
-      max-width: none;
-      margin-bottom: 1.75rem;
-      flex-wrap: wrap;
-    }
-    .section-head .h2 {
-      font-size: 1.45rem;
-      letter-spacing: -0.025em;
-    }
-
-    .work-list {
-      display: grid;
-      gap: var(--space-5);
-    }
-    @media (min-width: 52rem) {
-      .work-list {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-    }
-    .card-inner {
-      position: relative;
-      padding: clamp(var(--space-5), 3vw, var(--space-6));
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-    .tool-card-inner {
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      background: color-mix(
-        in srgb,
-        var(--color-surface-raised) 50%,
-        transparent
-      );
-      backdrop-filter: blur(8px);
-      transition: border-color 200ms ease;
-    }
-    .tool-card-inner:hover {
-      border-color: var(--color-border-accent);
-    }
-    .card-index {
-      display: block;
-      font-size: var(--fs-meta);
-      color: var(--color-text-faint);
-      margin-bottom: var(--space-3);
-    }
-    .card-arrow {
-      position: absolute;
-      top: clamp(var(--space-5), 3vw, var(--space-6));
-      right: clamp(var(--space-5), 3vw, var(--space-6));
-      color: var(--color-text-faint);
-      transition:
-        transform var(--dur-1) var(--ease),
-        color var(--dur-1) var(--ease);
-    }
-    :global(.tilt-card:hover) .card-arrow {
-      color: var(--color-text-accent);
-      transform: translate(3px, -3px);
-    }
-    .chip-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-2);
-      margin-top: auto;
-      padding-top: var(--space-5);
-    }
-    .tool-row {
-      display: grid;
-      gap: var(--space-4);
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
-    }
-    .writing-list {
-      display: grid;
-    }
-    .writing-row {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: center;
-      gap: var(--space-5);
-      padding: var(--space-5) 0;
-      border-top: 1px solid var(--color-border);
-      color: inherit;
-      text-decoration: none;
-      transition: padding var(--dur-2) var(--ease);
-    }
-    .writing-row:last-child {
-      border-bottom: 1px solid var(--color-border);
-    }
-    .writing-row:hover {
-      padding-inline: var(--space-3);
-    }
-    .writing-idx {
-      color: var(--color-text-faint);
-    }
-    .writing-text {
-      display: grid;
-      gap: var(--space-2);
-    }
-    .writing-title {
-      color: var(--color-text);
-      transition: color var(--dur-1) var(--ease);
-      max-width: 40ch;
-    }
-    .writing-row:hover .writing-title {
-      color: var(--color-text-accent);
-    }
-    .writing-arrow {
-      color: var(--color-text-faint);
-      transition:
-        transform var(--dur-1) var(--ease),
-        color var(--dur-1) var(--ease);
-    }
-    .writing-row:hover .writing-arrow {
-      color: var(--color-text-accent);
-      transform: translateX(4px);
-    }
-
-    /* ==========================================================================
-       ZEL-INSPIRED OPERATING MANIFESTO
-       ========================================================================== */
-    .manifesto-section {
-      padding-block: clamp(3rem, 6vw, 5rem);
-      border-bottom: 1px solid var(--color-border);
-    }
-    .manifesto-card {
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-xl);
-      background: color-mix(
-        in srgb,
-        var(--color-surface-raised) 60%,
-        transparent
-      );
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      padding: clamp(var(--space-6), 5vw, var(--space-8));
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-6);
-    }
-    .manifesto-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.35rem 0.85rem;
-      border-radius: var(--radius-pill);
-      border: 1px solid var(--color-border-strong);
-      background: var(--color-surface);
-      font-family: var(--font-mono);
-      font-size: var(--fs-meta);
-      color: var(--color-text-subtle);
-      width: fit-content;
-    }
-    .manifesto-text {
-      font-size: clamp(1.15rem, 1.05rem + 0.6vw, 1.5rem);
-      line-height: 1.6;
-      color: var(--color-text-subtle);
-      max-width: 60ch;
-      margin: 0;
-    }
-    .manifesto-emphasis {
-      color: var(--color-text);
-      font-weight: 600;
-      display: inline;
-    }
-    .manifesto-metrics {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
-      gap: var(--space-4);
-      padding-top: var(--space-4);
-      border-top: 1px solid var(--color-border);
-    }
-    .m-metric {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-    .m-val {
-      font-family: var(--font-sans);
-      font-size: clamp(1.8rem, 3vw, 2.4rem);
-      font-weight: 700;
-      color: var(--color-text);
-      letter-spacing: -0.03em;
-      line-height: 1;
-    }
-    .m-label {
-      font-family: var(--font-mono);
-      font-size: var(--fs-meta);
-      color: var(--color-text-faint);
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    /* ==========================================================================
-       ZEL-INSPIRED TABULAR PROJECT DIRECTORY
-       ========================================================================== */
-    .zel-table-card {
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      background: var(--color-surface);
-      overflow: hidden;
-      margin-bottom: var(--space-7);
-    }
-    .zel-table-header {
-      display: grid;
-      grid-template-columns: 1.2fr 1.2fr 1.2fr 0.8fr;
-      gap: var(--space-4);
-      padding: var(--space-4) var(--space-5);
-      border-bottom: 1px solid var(--color-border);
-      background: var(--color-surface-raised);
-      font-family: var(--font-mono);
-      font-size: var(--fs-meta);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--color-text-faint);
-    }
-    @media (max-width: 52rem) {
-      .zel-table-header {
-        display: none;
-      }
-    }
-    .zel-table-list {
-      display: flex;
-      flex-direction: column;
-    }
-    .zel-table-row {
-      display: grid;
-      grid-template-columns: 1.2fr 1.2fr 1.2fr 0.8fr;
-      gap: var(--space-4);
-      align-items: center;
-      padding: var(--space-4) var(--space-5);
-      border-bottom: 1px solid var(--color-border);
-      color: inherit;
-      text-decoration: none;
-      transition: background-color 150ms ease;
-    }
-    .zel-table-row:last-child {
-      border-bottom: none;
-    }
-    .zel-table-row:hover {
-      background: var(--color-surface-hover);
-    }
-    @media (max-width: 52rem) {
-      .zel-table-row {
-        grid-template-columns: 1fr;
-        gap: var(--space-2);
-        padding: var(--space-4);
-      }
-    }
-    .td-project {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-    }
-    .row-num {
-      font-family: var(--font-mono);
-      font-size: var(--fs-meta);
-      color: var(--color-text-faint);
-    }
-    .row-title-box {
-      display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
-    }
-    .row-title {
-      font-weight: 600;
-      color: var(--color-text);
-      font-size: var(--fs-body-sm);
-      transition: color 150ms ease;
-    }
-    .zel-table-row:hover .row-title {
-      color: var(--neon-cyan);
-    }
-    .row-kicker {
-      font-size: var(--fs-meta);
-      color: var(--color-text-faint);
-    }
-    .service-text {
-      font-size: var(--fs-body-sm);
-      color: var(--color-text-subtle);
-    }
-    .duration-text {
-      font-size: var(--fs-meta);
-      font-family: var(--font-mono);
-      color: var(--color-text-faint);
-    }
-    .td-year {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-2);
-    }
-    .year-text {
-      font-family: var(--font-mono);
-      font-size: var(--fs-meta);
-      color: var(--color-text-faint);
-    }
-    .row-arrow {
-      font-size: 1.1em;
-      color: var(--color-text-faint);
-      transition:
-        transform 180ms ease,
-        color 180ms ease;
-    }
-    .zel-table-row:hover .row-arrow {
-      color: var(--neon-cyan);
-      transform: translate(2px, -2px);
-    }
-
-    /* ==========================================================================
-       ZEL-INSPIRED CONTACT HERO SECTION
-       ========================================================================== */
-    .cta-section {
-      padding-block: clamp(4rem, 8vw, 6rem);
-      border-top: 1px solid var(--color-border);
-    }
-    .cta-card {
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-xl);
-      background: color-mix(
-        in srgb,
-        var(--color-surface-raised) 80%,
-        transparent
-      );
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      padding: clamp(var(--space-6), 6vw, var(--space-9));
-    }
-    .cta-content {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-4);
-      max-width: 60ch;
-    }
-    .cta-title {
-      font-size: clamp(2.4rem, 5vw, 3.8rem);
-      line-height: 1.05;
-      letter-spacing: -0.04em;
-      margin: 0;
-    }
-    .cta-lead {
-      color: var(--color-text-subtle);
-      font-size: var(--fs-body);
-      line-height: 1.6;
-      margin: 0;
-    }
-    .cta-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-3);
-      padding-top: var(--space-3);
-    }
-  </style>
+  <section class="content-panel">
+    <div class="section-heading">
+      <h2>Writing</h2>
+      <a href="/blog">All writing ↗</a>
+    </div>
+    <div class="writing-list">
+      {writing.map((w) => (
+        <a class="writing-row" href={w.href}>
+          <div>
+            <p class="meta">{w.meta}</p>
+            <h3>{w.title}</h3>
+          </div>
+          <span aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </div>
+  </section>
 </BaseLayout>

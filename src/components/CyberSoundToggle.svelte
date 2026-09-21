@@ -42,8 +42,8 @@
     background: color-mix(in srgb, var(--color-surface-raised) 70%, transparent);
     backdrop-filter: blur(8px);
     color: var(--color-text-faint);
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
     letter-spacing: 0.04em;
     cursor: pointer;
     transition: all 180ms ease;

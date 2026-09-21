@@ -28,47 +28,7 @@ const classes = [
   .join(" ");
 ---
 
-<span class={classes}
-  ><span class="loz-dot" aria-hidden="true"></span>{label}</span
->
-<style>
-  .loz {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.3rem 0.6rem;
-    border-radius: var(--radius-sm);
-    font-family: var(--font-mono);
-    font-size: var(--fs-meta);
-    font-weight: var(--w-med);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    background: var(--_bg);
-    color: var(--_fg);
-  }
-  .loz-dot {
-    width: 0.4rem;
-    height: 0.4rem;
-    border-radius: 999px;
-    background: currentColor;
-  }
-  .loz--live {
-    --_bg: var(--status-live-bg);
-    --_fg: var(--status-live-text);
-  }
-  .loz--progress {
-    --_bg: var(--status-prog-bg);
-    --_fg: var(--status-prog-text);
-  }
-  .loz--planned {
-    --_bg: var(--status-plan-bg);
-    --_fg: var(--status-plan-text);
-  }
-  .loz--draft {
-    --_bg: var(--status-draft-bg);
-    --_fg: var(--status-draft-text);
-  }
-  .loz--bold {
-    font-weight: var(--w-semi);
-  }
-</style>
+<span class={classes}>
+  <span class="loz-dot" aria-hidden="true"></span>
+  {label}
+</span>

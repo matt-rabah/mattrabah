@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
+  import { playSoftClick } from "../lib/sound";
 
   interface Props {
     href?: string;
@@ -48,6 +49,7 @@
 
   function handleMouseEnter() {
     isHovered = true;
+    playSoftClick();
   }
 
   function handleMouseLeave() {

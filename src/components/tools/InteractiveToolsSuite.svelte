@@ -1,13 +1,16 @@
 <script lang="ts">
-  type ToolMode = 'handoff' | 'health';
+  import { playToggleBeep, playSuccessChime, playSoftClick } from '../../lib/sound';
+  import CyberSoundToggle from '../CyberSoundToggle.svelte';
+
+  type ToolMode = 'handoff' | 'health' | 'ai';
   let activeTool = $state<ToolMode>('handoff');
   let copyFeedback = $state<string | null>(null);
 
   // --- Handoff Risk Checker State ---
-  let scopeComplexity = $state<number>(1); // 0: Standard, 1: Moderate Custom, 2: Heavy Custom
-  let sponsorStatus = $state<number>(1); // 0: Dedicated Champion, 1: Passive Sponsor, 2: Single Point / Absent
-  let timelinePressure = $state<number>(1); // 0: Realistic Buffer, 1: Compressed, 2: Hard/Unrealistic SLA
-  let dataReadiness = $state<number>(1); // 0: Clean / API Ready, 1: Partial / Legacy, 2: Unknown / Untested
+  let scopeComplexity = $state<number>(1);
+  let sponsorStatus = $state<number>(1);
+  let timelinePressure = $state<number>(1);
+  let dataReadiness = $state<number>(1);
 
   const scopeOptions = [
     { label: "Standard Off-the-Shelf", desc: "Out-of-box workflows and standard data models.", weight: 5 },
@@ -129,9 +132,93 @@
     };
   });
 
+  // --- AI Custom Assessment State ---
+  let aiPrompt = $state<string>('Mid-market customer in fintech. Sales promised automated ERP reconciliation via custom webhooks in 21 days. Primary champion moved to a new team last week, and IT sandbox credentials have not been provided.');
+  let aiOutput = $state<string | null>(null);
+  let isAiLoading = $state<boolean>(false);
+  let aiSource = $state<'live' | 'heuristic'>('live');
+
+  async function generateAiAssessment() {
+    if (!aiPrompt.trim()) return;
+    isAiLoading = true;
+    playSoftClick();
+
+    try {
+      const res = await fetch('/api/ai/generate.json', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt: `Analyze this customer handoff/account situation from an expert Customer Experience, Implementation, and CS Operations perspective. Provide:
+1. Executive Risk Classification (Low, Moderate, Critical)
+2. Primary Root Traps
+3. Mandatory 7-Day Mitigation Playbook
+
+Customer Context:
+${aiPrompt}`
+        })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.output) {
+          aiOutput = data.output;
+          aiSource = 'live';
+          playSuccessChime();
+          isAiLoading = false;
+          return;
+        }
+      }
+      throw new Error("Local fallback synthesis");
+    } catch {
+      // Robust Heuristic Engine Fallback
+      aiSource = 'heuristic';
+      const promptLower = aiPrompt.toLowerCase();
+      let detectedRisk = "MODERATE";
+      let keyTraps = [
+        "Unvalidated Custom Scope: External integrations without documented endpoints will trigger SLA breaches.",
+        "Champion Succession Void: No confirmed business owner committed to UAT sign-off."
+      ];
+      let actions = [
+        "Issue a 72-hour Technical Hold: Require an executive discovery call before starting engineering.",
+        "Deliver a Simplified Phase 1 Architecture: Defer non-critical webhook triggers to Month 2."
+      ];
+
+      if (promptLower.includes("erp") || promptLower.includes("custom") || promptLower.includes("webhook")) {
+        detectedRisk = "CRITICAL";
+        keyTraps.unshift("High-Complexity Integration Hazard: ERP sync failures are the #1 driver of delayed go-lives.");
+      }
+      if (promptLower.includes("left") || promptLower.includes("resigned") || promptLower.includes("moved")) {
+        detectedRisk = "CRITICAL";
+        keyTraps.unshift("Executive Orphan Trap: Key decision-maker transition creates high post-launch churn hazard.");
+      }
+
+      aiOutput = `### EXECUTIVE HAZARD SYNTHESIS (${detectedRisk})
+
+**Identified Root Traps:**
+${keyTraps.map(t => `- ${t}`).join('\n')}
+
+**Prescriptive 7-Day Turnaround Protocol:**
+${actions.map((a, i) => `${i+1}. ${a}`).join('\n')}
+
+*Operational Recommendation:* Maintain hard contractual milestones tied to data access delivery.`;
+      playSuccessChime();
+      isAiLoading = false;
+    }
+  }
+
+  function handleTabChange(tool: ToolMode) {
+    activeTool = tool;
+    playToggleBeep(true);
+  }
+
+  function handleOptionSelect() {
+    playToggleBeep(true);
+  }
+
   function triggerCopy(text: string, label: string) {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text).then(() => {
+        playSuccessChime();
         copyFeedback = `${label} copied to clipboard!`;
         setTimeout(() => {
           copyFeedback = null;
@@ -168,31 +255,53 @@ ${healthDiagnosis.play}
 Generated via mattrabah.com/tools`;
     triggerCopy(summary, "Health Playbook");
   }
+
+  function copyAiSummary() {
+    if (aiOutput) {
+      triggerCopy(aiOutput, "AI Diagnostic Memo");
+    }
+  }
 </script>
 
 <div class="tools-suite">
-  <!-- Nav Tabs -->
-  <div class="tools-nav" role="tablist" aria-label="Tool Selection">
-    <button
-      role="tab"
-      class="nav-tab {activeTool === 'handoff' ? 'nav-tab--active' : ''}"
-      aria-selected={activeTool === 'handoff'}
-      onclick={() => (activeTool = 'handoff')}
-    >
-      <span class="tab-indicator" aria-hidden="true"></span>
-      <span class="tab-title">Handoff Risk Checker</span>
-      <span class="tab-badge">Interactive</span>
-    </button>
-    <button
-      role="tab"
-      class="nav-tab {activeTool === 'health' ? 'nav-tab--active' : ''}"
-      aria-selected={activeTool === 'health'}
-      onclick={() => (activeTool = 'health')}
-    >
-      <span class="tab-indicator" aria-hidden="true"></span>
-      <span class="tab-title">Customer Health Signal Mapper</span>
-      <span class="tab-badge">Interactive</span>
-    </button>
+  <!-- Nav Tabs & Sound Toolbar -->
+  <div class="suite-toolbar">
+    <div class="tools-nav" role="tablist" aria-label="Tool Selection">
+      <button
+        role="tab"
+        class="nav-tab {activeTool === 'handoff' ? 'nav-tab--active' : ''}"
+        aria-selected={activeTool === 'handoff'}
+        onclick={() => handleTabChange('handoff')}
+      >
+        <span class="tab-indicator" aria-hidden="true"></span>
+        <span class="tab-title">Handoff Risk Checker</span>
+        <span class="tab-badge">Interactive</span>
+      </button>
+      <button
+        role="tab"
+        class="nav-tab {activeTool === 'health' ? 'nav-tab--active' : ''}"
+        aria-selected={activeTool === 'health'}
+        onclick={() => handleTabChange('health')}
+      >
+        <span class="tab-indicator" aria-hidden="true"></span>
+        <span class="tab-title">Customer Health Signal Mapper</span>
+        <span class="tab-badge">Interactive</span>
+      </button>
+      <button
+        role="tab"
+        class="nav-tab {activeTool === 'ai' ? 'nav-tab--active' : ''}"
+        aria-selected={activeTool === 'ai'}
+        onclick={() => handleTabChange('ai')}
+      >
+        <span class="tab-indicator" aria-hidden="true"></span>
+        <span class="tab-title">Custom AI Diagnostic</span>
+        <span class="tab-badge tab-badge--ai">AI Copilot</span>
+      </button>
+    </div>
+
+    <div class="toolbar-side">
+      <CyberSoundToggle />
+    </div>
   </div>
 
   <!-- Toast Notification -->
@@ -237,7 +346,7 @@ Generated via mattrabah.com/tools`;
                     name="scope"
                     value={idx}
                     checked={scopeComplexity === idx}
-                    onchange={() => (scopeComplexity = idx)}
+                    onchange={() => { scopeComplexity = idx; handleOptionSelect(); }}
                     class="sr-only"
                   />
                   <div class="option-check" aria-hidden="true"></div>
@@ -261,7 +370,7 @@ Generated via mattrabah.com/tools`;
                     name="sponsor"
                     value={idx}
                     checked={sponsorStatus === idx}
-                    onchange={() => (sponsorStatus = idx)}
+                    onchange={() => { sponsorStatus = idx; handleOptionSelect(); }}
                     class="sr-only"
                   />
                   <div class="option-check" aria-hidden="true"></div>
@@ -285,7 +394,7 @@ Generated via mattrabah.com/tools`;
                     name="timeline"
                     value={idx}
                     checked={timelinePressure === idx}
-                    onchange={() => (timelinePressure = idx)}
+                    onchange={() => { timelinePressure = idx; handleOptionSelect(); }}
                     class="sr-only"
                   />
                   <div class="option-check" aria-hidden="true"></div>
@@ -309,7 +418,7 @@ Generated via mattrabah.com/tools`;
                     name="data"
                     value={idx}
                     checked={dataReadiness === idx}
-                    onchange={() => (dataReadiness = idx)}
+                    onchange={() => { dataReadiness = idx; handleOptionSelect(); }}
                     class="sr-only"
                   />
                   <div class="option-check" aria-hidden="true"></div>
@@ -406,7 +515,12 @@ Generated via mattrabah.com/tools`;
 
           <div class="toggle-stack">
             <label class="toggle-card {signalUsageDrop ? 'toggle-card--active' : ''}">
-              <input type="checkbox" bind:checked={signalUsageDrop} class="sr-only" />
+              <input
+                type="checkbox"
+                bind:checked={signalUsageDrop}
+                onchange={handleOptionSelect}
+                class="sr-only"
+              />
               <div class="toggle-switch" aria-hidden="true">
                 <div class="switch-thumb"></div>
               </div>
@@ -417,7 +531,12 @@ Generated via mattrabah.com/tools`;
             </label>
 
             <label class="toggle-card {signalChampionLeft ? 'toggle-card--active' : ''}">
-              <input type="checkbox" bind:checked={signalChampionLeft} class="sr-only" />
+              <input
+                type="checkbox"
+                bind:checked={signalChampionLeft}
+                onchange={handleOptionSelect}
+                class="sr-only"
+              />
               <div class="toggle-switch" aria-hidden="true">
                 <div class="switch-thumb"></div>
               </div>
@@ -428,7 +547,12 @@ Generated via mattrabah.com/tools`;
             </label>
 
             <label class="toggle-card {signalRenewal90d ? 'toggle-card--active' : ''}">
-              <input type="checkbox" bind:checked={signalRenewal90d} class="sr-only" />
+              <input
+                type="checkbox"
+                bind:checked={signalRenewal90d}
+                onchange={handleOptionSelect}
+                class="sr-only"
+              />
               <div class="toggle-switch" aria-hidden="true">
                 <div class="switch-thumb"></div>
               </div>
@@ -439,7 +563,12 @@ Generated via mattrabah.com/tools`;
             </label>
 
             <label class="toggle-card {signalSupportSpike ? 'toggle-card--active' : ''}">
-              <input type="checkbox" bind:checked={signalSupportSpike} class="sr-only" />
+              <input
+                type="checkbox"
+                bind:checked={signalSupportSpike}
+                onchange={handleOptionSelect}
+                class="sr-only"
+              />
               <div class="toggle-switch" aria-hidden="true">
                 <div class="switch-thumb"></div>
               </div>
@@ -450,7 +579,12 @@ Generated via mattrabah.com/tools`;
             </label>
 
             <label class="toggle-card {signalExecMissed ? 'toggle-card--active' : ''}">
-              <input type="checkbox" bind:checked={signalExecMissed} class="sr-only" />
+              <input
+                type="checkbox"
+                bind:checked={signalExecMissed}
+                onchange={handleOptionSelect}
+                class="sr-only"
+              />
               <div class="toggle-switch" aria-hidden="true">
                 <div class="switch-thumb"></div>
               </div>
@@ -461,7 +595,12 @@ Generated via mattrabah.com/tools`;
             </label>
 
             <label class="toggle-card {signalCoreFeatureIdle ? 'toggle-card--active' : ''}">
-              <input type="checkbox" bind:checked={signalCoreFeatureIdle} class="sr-only" />
+              <input
+                type="checkbox"
+                bind:checked={signalCoreFeatureIdle}
+                onchange={handleOptionSelect}
+                class="sr-only"
+              />
               <div class="toggle-switch" aria-hidden="true">
                 <div class="switch-thumb"></div>
               </div>
@@ -518,6 +657,76 @@ Generated via mattrabah.com/tools`;
       </div>
     </div>
   {/if}
+
+  <!-- Tool 3: Custom AI Diagnostic -->
+  {#if activeTool === 'ai'}
+    <div class="tool-canvas" role="tabpanel" aria-labelledby="tab-ai">
+      <div class="canvas-header">
+        <div>
+          <span class="sub-label">DIAGNOSTIC ENGINE 03</span>
+          <h2 class="h3 canvas-title">Custom AI Diagnostic Copilot</h2>
+          <p class="canvas-desc">
+            Analyze unstructured deal notes, executive handoffs, or customer churn risks with practical AI.
+          </p>
+        </div>
+        {#if aiOutput}
+          <button class="action-btn" onclick={copyAiSummary}>
+            <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Export Memo
+          </button>
+        {/if}
+      </div>
+
+      <div class="ai-layout">
+        <div class="ai-input-box">
+          <label for="ai-notes" class="param-title">Deal / Account Situation Notes</label>
+          <textarea
+            id="ai-notes"
+            bind:value={aiPrompt}
+            rows="6"
+            class="ai-textarea"
+            placeholder="Paste your handoff notes, customer complaints, or contract terms here..."
+          ></textarea>
+
+          <div class="ai-actions">
+            <button
+              class="generate-btn"
+              disabled={isAiLoading || !aiPrompt.trim()}
+              onclick={generateAiAssessment}
+            >
+              {#if isAiLoading}
+                <span class="loading-spinner" aria-hidden="true"></span>
+                <span>Synthesizing Diagnostic...</span>
+              {:else}
+                <span class="sparkle-icon" aria-hidden="true">⚡</span>
+                <span>Generate Risk Assessment</span>
+              {/if}
+            </button>
+            <span class="engine-badge">
+              {aiSource === 'live' ? 'Connected: OpenAI API / Realtime' : 'Running: Heuristic Synthesis'}
+            </span>
+          </div>
+        </div>
+
+        {#if aiOutput}
+          <div class="ai-result-panel">
+            <div class="ai-result-head">
+              <span class="telemetry-tag">GENERATED RISK SYNTHESIS</span>
+              <span class="status-indicator" style="color: var(--neon-cyan);">
+                ● Ready
+              </span>
+            </div>
+            <div class="ai-markdown-content">
+              <pre class="ai-output-text">{aiOutput}</pre>
+            </div>
+          </div>
+        {/if}
+      </div>
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -528,12 +737,20 @@ Generated via mattrabah.com/tools`;
     gap: var(--space-6);
   }
 
-  /* Nav Tabs */
+  /* Toolbar */
+  .suite-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-3);
+    flex-wrap: wrap;
+  }
+
   .tools-nav {
     display: flex;
     gap: var(--space-3);
-    border-bottom: 1px solid var(--color-border);
-    padding-bottom: var(--space-2);
     overflow-x: auto;
   }
   .nav-tab {
@@ -582,6 +799,10 @@ Generated via mattrabah.com/tools`;
     color: var(--neon-cyan);
     letter-spacing: 0.04em;
     text-transform: uppercase;
+  }
+  .tab-badge--ai {
+    background: rgba(240, 68, 86, 0.14);
+    color: var(--neon-crimson);
   }
 
   /* Canvas Panel */
@@ -930,6 +1151,109 @@ Generated via mattrabah.com/tools`;
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
+  }
+
+  /* AI Tool 3 */
+  .ai-layout {
+    display: grid;
+    gap: var(--space-6);
+  }
+  .ai-input-box {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .ai-textarea {
+    width: 100%;
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-strong);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    line-height: 1.5;
+    resize: vertical;
+    transition: border-color 200ms ease;
+  }
+  .ai-textarea:focus {
+    outline: none;
+    border-color: var(--neon-cyan);
+    box-shadow: var(--glow-cyan);
+  }
+  .ai-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+  .generate-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.65rem 1.25rem;
+    border-radius: var(--radius-pill);
+    background: var(--neon-cyan);
+    color: #0a0d0f;
+    font-weight: 600;
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    border: none;
+    cursor: pointer;
+    transition: all 180ms ease;
+  }
+  .generate-btn:hover:not(:disabled) {
+    background: #40ebff;
+    box-shadow: 0 0 16px rgba(0, 229, 255, 0.4);
+    transform: translateY(-1px);
+  }
+  .generate-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .sparkle-icon {
+    font-size: 1rem;
+  }
+  .loading-spinner {
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-top-color: #0a0d0f;
+    border-radius: 50%;
+    animation: spin 600ms linear infinite;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  .engine-badge {
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+    color: var(--color-text-faint);
+  }
+  .ai-result-panel {
+    border: 1px solid var(--color-border-accent);
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--color-surface) 90%, rgba(0, 229, 255, 0.05));
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .ai-result-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-3);
+  }
+  .ai-output-text {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    line-height: 1.6;
+    color: var(--color-text);
+    white-space: pre-wrap;
+    margin: 0;
   }
 
   /* Toast */

@@ -1,6 +1,5 @@
 ---
 import "../styles/base.css";
-import Button from "../components/Button.astro";
 
 export interface Props {
   title: string;
@@ -11,11 +10,11 @@ const SITE = "Matt Rabah";
 
 const {
   title,
-  description = "Detroit-based CX and customer success. Customer lifecycle systems, practical AI workflows, and operating models for customer-facing teams.",
+  description = "Selected work, tools, and writing by Matt Rabah, a Detroit-based customer experience and implementation professional.",
 } = Astro.props;
 
 const fullTitle =
-  title === SITE ? `${SITE} — CX & Customer Success` : `${title} — ${SITE}`;
+  title === SITE ? `${SITE} — Selected Work` : `${title} — ${SITE}`;
 const year = new Date().getFullYear();
 
 const nav = [
@@ -23,10 +22,9 @@ const nav = [
   { href: "/tools", label: "Tools" },
   { href: "/blog", label: "Writing" },
   { href: "/about", label: "About" },
+  { href: "/resume", label: "Resume" },
   { href: "/contact", label: "Contact" },
 ];
-
-const signals = ["CX", "AI", "CS", "CRM", "OPS", "GTM", "VOC"];
 ---
 
 <!doctype html>
@@ -41,24 +39,14 @@ const signals = ["CX", "AI", "CS", "CRM", "OPS", "GTM", "VOC"];
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <link
-      rel="preload"
-      href="/fonts/tiempos/Tiempos Headline/Tiempos-Headline-Semibold-Desktop.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="/fonts/sohne/Sohne/sohne-book.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
     <script is:inline>
       (() => {
-        const storedTheme = localStorage.getItem("theme");
+        let storedTheme;
+        try {
+          storedTheme = localStorage.getItem("theme");
+        } catch {}
         const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
         document.documentElement.dataset.theme = storedTheme
           ? storedTheme
@@ -70,7 +58,9 @@ const signals = ["CX", "AI", "CS", "CRM", "OPS", "GTM", "VOC"];
   </head>
 
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main">
+      Skip to content
+    </a>
 
     <header class="masthead">
       <div class="container masthead-inner">
@@ -82,15 +72,20 @@ const signals = ["CX", "AI", "CS", "CRM", "OPS", "GTM", "VOC"];
 
           <span class="wordmark-system">
             <span class="wordmark-name">Matt Rabah</span>
-
-            <span class="brand-signal" aria-hidden="true">
-              {signals.map((signal) => <span>{signal}</span>)}
-            </span>
           </span>
         </a>
 
         <nav class="nav" aria-label="Primary">
-          {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+          {nav.map((item) => (
+            <a
+              href={item.href}
+              aria-current={
+                Astro.url.pathname.startsWith(item.href) ? "page" : undefined
+              }
+            >
+              {item.label}
+            </a>
+          ))}
         </nav>
 
         <div class="masthead-actions">
@@ -102,30 +97,24 @@ const signals = ["CX", "AI", "CS", "CRM", "OPS", "GTM", "VOC"];
                 stroke-width="1.8"
                 stroke-linecap="round"
               >
-                <path
-                  d="M12 2.5v2.6M12 18.9v2.6M21.5 12h-2.6M5.1 12H2.5M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8M18.4 18.4l-1.8-1.8M7.4 7.4 5.6 5.6"
-                ></path>
+                <path d="M12 2.5v2.6M12 18.9v2.6M21.5 12h-2.6M5.1 12H2.5M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8M18.4 18.4l-1.8-1.8M7.4 7.4 5.6 5.6"></path>
               </g>
             </svg>
 
             <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M20 14.3A8 8 0 1 1 9.7 4 6.4 6.4 0 0 0 20 14.3Z"
-                fill="currentColor"></path>
+                fill="currentColor"
+              ></path>
             </svg>
           </button>
-
-          <span class="masthead-cta">
-            <Button href="/contact" variant="ghost" size="sm" arrow
-              >Contact</Button
-            >
-          </span>
 
           <button
             class="nav-toggle"
             type="button"
             aria-label="Open menu"
             aria-expanded="false"
+            aria-controls="mobile-nav"
           >
             <span></span>
             <span></span>
@@ -133,10 +122,18 @@ const signals = ["CX", "AI", "CS", "CRM", "OPS", "GTM", "VOC"];
         </div>
       </div>
 
-      <div class="mobile-nav" hidden>
+      <div id="mobile-nav" class="mobile-nav" hidden>
         <div class="container stack-2">
-          {nav.map((item) => <a href={item.href}>{item.label}</a>)}
-          <a href="/contact">Contact</a>
+          {nav.map((item) => (
+            <a
+              href={item.href}
+              aria-current={
+                Astro.url.pathname.startsWith(item.href) ? "page" : undefined
+              }
+            >
+              {item.label}
+            </a>
+          ))}
         </div>
       </div>
     </header>
@@ -148,10 +145,12 @@ const signals = ["CX", "AI", "CS", "CRM", "OPS", "GTM", "VOC"];
     <footer class="footer">
       <div class="container footer-inner">
         <div class="footer-brand stack-3">
-          <a href="/" class="footer-word">Matt Rabah</a>
+          <a href="/" class="footer-word">
+            Matt Rabah
+          </a>
           <p class="body-sm" style="max-width:28ch">
-            Customer lifecycle systems and practical AI workflows for
-            customer-facing teams. Detroit, MI.
+            Selected work in customer experience, implementation, and CRM. Based
+            in Detroit, Michigan.
           </p>
           <p class="meta" style="color:var(--color-text-accent)">
             Open to new roles
@@ -160,7 +159,16 @@ const signals = ["CX", "AI", "CS", "CRM", "OPS", "GTM", "VOC"];
 
         <nav class="footer-col" aria-label="Site">
           <p class="footer-col-title">Site</p>
-          {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+          {nav.map((item) => (
+            <a
+              href={item.href}
+              aria-current={
+                Astro.url.pathname.startsWith(item.href) ? "page" : undefined
+              }
+            >
+              {item.label}
+            </a>
+          ))}
         </nav>
 
         <nav class="footer-col" aria-label="Contact">
@@ -169,13 +177,17 @@ const signals = ["CX", "AI", "CS", "CRM", "OPS", "GTM", "VOC"];
           <a
             href="https://www.linkedin.com/in/mattrabah/"
             target="_blank"
-            rel="me noopener">LinkedIn</a
+            rel="me noopener"
           >
+            LinkedIn
+          </a>
         </nav>
       </div>
 
       <div class="container footer-base">
-        <p class="meta">© {year} {SITE}</p>
+        <p class="meta">
+          © {year} {SITE}
+        </p>
         <p class="meta">Detroit, Michigan</p>
       </div>
     </footer>
@@ -185,7 +197,9 @@ const signals = ["CX", "AI", "CS", "CRM", "OPS", "GTM", "VOC"];
         const nextTheme =
           document.documentElement.dataset.theme === "dark" ? "light" : "dark";
         document.documentElement.dataset.theme = nextTheme;
-        localStorage.setItem("theme", nextTheme);
+        try {
+          localStorage.setItem("theme", nextTheme);
+        } catch {}
       });
 
       const navToggle = document.querySelector(".nav-toggle");
@@ -194,13 +208,16 @@ const signals = ["CX", "AI", "CS", "CRM", "OPS", "GTM", "VOC"];
       navToggle?.addEventListener("click", () => {
         const isOpen = navToggle.getAttribute("aria-expanded") === "true";
         navToggle.setAttribute("aria-expanded", String(!isOpen));
+        navToggle.setAttribute(
+          "aria-label",
+          isOpen ? "Open menu" : "Close menu",
+        );
 
         if (mobileNav) {
           mobileNav.hidden = isOpen;
         }
       });
     </script>
-
     <style>
       .masthead {
         position: sticky;
@@ -298,80 +315,6 @@ const signals = ["CX", "AI", "CS", "CRM", "OPS", "GTM", "VOC"];
         white-space: nowrap;
       }
 
-      .brand-signal {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 3rem;
-        height: 1.12rem;
-        overflow: hidden;
-        border: 1px solid var(--color-border-accent);
-        border-radius: var(--radius-pill);
-        background: var(--color-accent-bg);
-        color: var(--color-text-accent);
-        flex: 0 0 auto;
-      }
-
-      .brand-signal span {
-        position: absolute;
-        inset: 0;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        color: currentColor;
-        font-family: var(--font-mono);
-        font-size: 0.55rem;
-        font-weight: 500;
-        letter-spacing: 0.12em;
-        line-height: 1;
-        text-transform: uppercase;
-        opacity: 0;
-        transform: translateY(90%);
-        animation: brand-signal 14s infinite;
-      }
-
-      .brand-signal span:nth-child(1) {
-        animation-delay: 0s;
-      }
-      .brand-signal span:nth-child(2) {
-        animation-delay: 2s;
-      }
-      .brand-signal span:nth-child(3) {
-        animation-delay: 4s;
-      }
-      .brand-signal span:nth-child(4) {
-        animation-delay: 6s;
-      }
-      .brand-signal span:nth-child(5) {
-        animation-delay: 8s;
-      }
-      .brand-signal span:nth-child(6) {
-        animation-delay: 10s;
-      }
-      .brand-signal span:nth-child(7) {
-        animation-delay: 12s;
-      }
-
-      @keyframes brand-signal {
-        0% {
-          opacity: 0;
-          transform: translateY(90%);
-        }
-
-        4%,
-        11% {
-          opacity: 1;
-          transform: translateY(0);
-        }
-
-        15%,
-        100% {
-          opacity: 0;
-          transform: translateY(-90%);
-        }
-      }
-
       .nav {
         display: flex;
         gap: var(--space-6);
@@ -386,7 +329,8 @@ const signals = ["CX", "AI", "CS", "CRM", "OPS", "GTM", "VOC"];
         text-decoration: none;
       }
 
-      .nav a:hover {
+      .nav a:hover,
+      .nav a[aria-current="page"] {
         color: var(--color-text);
       }
 
@@ -524,18 +468,6 @@ const signals = ["CX", "AI", "CS", "CRM", "OPS", "GTM", "VOC"];
         border-top: 1px solid var(--color-footer-border);
       }
 
-      @media (prefers-reduced-motion: reduce) {
-        .brand-signal span {
-          animation: none;
-          opacity: 0;
-          transform: none;
-        }
-
-        .brand-signal span:first-child {
-          opacity: 1;
-        }
-      }
-
       @media (max-width: 46rem) {
         .nav,
         .masthead-cta {
@@ -564,11 +496,6 @@ const signals = ["CX", "AI", "CS", "CRM", "OPS", "GTM", "VOC"];
           font-size: 0.92rem;
         }
 
-        .brand-signal {
-          width: 2.65rem;
-          height: 1.05rem;
-        }
-
         .footer-inner {
           grid-template-columns: 1fr 1fr;
         }
@@ -583,10 +510,6 @@ const signals = ["CX", "AI", "CS", "CRM", "OPS", "GTM", "VOC"];
           max-width: 7.4rem;
           overflow: hidden;
           text-overflow: ellipsis;
-        }
-
-        .brand-signal {
-          display: none;
         }
 
         .footer-inner {

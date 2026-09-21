@@ -8,21 +8,21 @@ import Tag from "../../components/ui/Tag.astro";
    lever on this page. Don't invent them; a vague number is worse than none. */
 const work = [
   {
-    id: "neurosync",
-    kicker: "Healthtech · Clinical platform",
-    title: "NeuroSync",
-    role: "Built the customer success function",
+    id: "cadence-lab",
+    kicker: "Cadence Lab · Service businesses",
+    title: "Cadence Lab",
+    role: "Lifecycle diagnostics & retention",
     challenge:
-      "A clinical platform was closing deals faster than it could onboard them. Customers signed, then stalled — implementation lived in people's heads, adoption wasn't tracked, and renewals arrived as surprises.",
+      "Service businesses with loyal customers but no lifecycle visibility — they couldn't tell you where customers stalled, why they churned, or which moments actually built loyalty.",
     approach:
-      "I stood up the customer success motion end to end: a repeatable onboarding path, adoption checkpoints tied to clinical and operational use, account health signals the team could actually act on, and a renewal readiness review that started months before the date.",
+      "I built customer journey diagnostics, onboarding and retention frameworks, and lifecycle maturity models, then translated all of it into a CRM and operating rhythm the team could run without me.",
     result:
-      "Onboarding stopped depending on individual heroics. The team could see which accounts were healthy, which were drifting, and what to do next — before a renewal conversation forced the issue.",
+      "Clients went from intuition to a map: a clear view of the journey, the stall points, and the handful of moments worth investing in. CX language became decisions a team could act on.",
     tags: [
-      "Onboarding & implementation",
-      "Adoption tracking",
-      "Account health",
-      "Renewal readiness",
+      "Journey diagnostics",
+      "Retention frameworks",
+      "Lifecycle maturity",
+      "Operating rhythm",
     ],
   },
   {
@@ -44,32 +44,23 @@ const work = [
     ],
   },
   {
-    id: "context-by-design",
-    kicker: "Consulting · Service businesses",
-    title: "Context By Design",
-    role: "Lifecycle diagnostics & retention",
+    id: "neurosync",
+    kicker: "Healthtech · Clinical platform",
+    title: "NeuroSync",
+    role: "Built the customer success function",
     challenge:
-      "Service businesses with loyal customers but no lifecycle visibility — they couldn't tell you where customers stalled, why they churned, or which moments actually built loyalty.",
+      "A clinical platform was closing deals faster than it could onboard them. Customers signed, then stalled — implementation lived in people's heads, adoption wasn't tracked, and renewals arrived as surprises.",
     approach:
-      "I built customer journey diagnostics, onboarding and retention frameworks, and lifecycle maturity models, then translated all of it into a CRM and operating rhythm the team could run without me.",
+      "I stood up the customer success motion end to end: a repeatable onboarding path, adoption checkpoints tied to clinical and operational use, account health signals the team could actually act on, and a renewal readiness review that started months before the date.",
     result:
-      "Clients went from intuition to a map: a clear view of the journey, the stall points, and the handful of moments worth investing in. CX language became decisions a team could act on.",
+      "Onboarding stopped depending on individual heroics. The team could see which accounts were healthy, which were drifting, and what to do next — before a renewal conversation forced the issue.",
     tags: [
-      "Journey diagnostics",
-      "Retention frameworks",
-      "Lifecycle maturity",
-      "Operating rhythm",
+      "Onboarding & implementation",
+      "Adoption tracking",
+      "Account health",
+      "Renewal readiness",
     ],
   },
-];
-
-const principles = [
-  "Customers feel the operating model.",
-  "A weak handoff turns a closed deal into implementation risk.",
-  "A dashboard is not an operating system.",
-  "CRM hygiene is customer-facing, even when it looks internal.",
-  "AI should reduce drag without replacing ownership.",
-  "Renewal readiness starts long before the renewal.",
 ];
 ---
 
@@ -80,92 +71,53 @@ const principles = [
   <section class="hero">
     <div class="container">
       <p class="eyebrow reveal reveal-1">Portfolio</p>
-      <h1 class="display reveal reveal-2">Proof that systems beat memory.</h1>
+      <h1 class="display reveal reveal-2">Selected work.</h1>
       <p
         class="lead reveal reveal-3"
         style="max-width:48ch; margin-top:var(--space-6)"
       >
-        Different industries, the same operating problems — when the system is
-        clearer the team spends less time rescuing accounts and more time moving
-        them forward.
+        A closer look at my role, the work, and the outcomes across Cadence Lab,
+        Shinola, and NeuroSync.
       </p>
     </div>
   </section>
 
-  <section class="statement section--alt">
-    <div class="container statement-inner">
-      <h2 class="statement-title">
-        Different industries. <em>The same</em> operating problem.
-      </h2>
-      <p class="statement-sub">
-        Healthcare needs trust and implementation discipline. Retail needs
-        visibility at scale. Consulting needs the journey made legible.
-        Underneath, it's one job: make the system easier to operate.
-      </p>
-    </div>
-  </section>
-
-  {
-    work.map((w, i) => (
-      <section id={w.id} class={`section case ${i % 2 ? "section--alt" : ""}`}>
-        <div class="container case-grid">
-          <aside class="case-aside">
-            <p class="meta" style="color:var(--color-text-accent)">
-              {w.kicker}
-            </p>
-            <h2 class="h1 case-title">{w.title}</h2>
-            <p class="meta case-role">{w.role}</p>
-            <div class="chip-col">
-              {w.tags.map((t) => (
-                <Tag text={t} />
-              ))}
-            </div>
-          </aside>
-          <div class="case-body">
-            <div class="case-block">
-              <p class="case-label">The challenge</p>
-              <p class="body">{w.challenge}</p>
-            </div>
-            <div class="case-block">
-              <p class="case-label">What I did</p>
-              <p class="body">{w.approach}</p>
-            </div>
-            <div class="case-block case-block--result">
-              <p class="case-label">The result</p>
-              <p class="body">{w.result}</p>
-            </div>
+  {work.map((w, i) => (
+    <section id={w.id} class={`section case ${i % 2 ? "section--alt" : ""}`}>
+      <div class="container case-grid">
+        <aside class="case-aside">
+          <p class="meta" style="color:var(--color-text-accent)">
+            {w.kicker}
+          </p>
+          <h2 class="h1 case-title">{w.title}</h2>
+          <p class="meta case-role">{w.role}</p>
+          <div class="chip-col">
+            {w.tags.map((t) => (
+              <Tag text={t} />
+            ))}
+          </div>
+        </aside>
+        <div class="case-body">
+          <div class="case-block">
+            <p class="case-label">The challenge</p>
+            <p class="body">{w.challenge}</p>
+          </div>
+          <div class="case-block">
+            <p class="case-label">What I did</p>
+            <p class="body">{w.approach}</p>
+          </div>
+          <div class="case-block case-block--result">
+            <p class="case-label">The result</p>
+            <p class="body">{w.result}</p>
           </div>
         </div>
-      </section>
-    ))
-  }
-
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">How I think</p>
-          <h2 class="h2">Operating principles.</h2>
-        </div>
       </div>
-      <ul class="principle-list">
-        {
-          principles.map((p, i) => (
-            <li class="principle">
-              <span class="meta principle-idx">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span class="h3 principle-text">{p}</span>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
+    </section>
+  ))}
 
   <style>
     .hero {
-      padding-block: clamp(var(--space-9), 14vw, 9rem) var(--space-8);
+      padding-block: clamp(3rem, 7vw, 5rem) 3rem;
     }
     .case {
       scroll-margin-top: 5rem;
@@ -230,29 +182,6 @@ const principles = [
     }
     .case-block--result .body {
       color: var(--color-text);
-    }
-
-    .principle-list {
-      display: grid;
-      gap: 0;
-    }
-    .principle {
-      display: flex;
-      align-items: baseline;
-      gap: var(--space-5);
-      padding: var(--space-5) 0;
-      border-top: 1px solid var(--color-border);
-    }
-    .principle:last-child {
-      border-bottom: 1px solid var(--color-border);
-    }
-    .principle-idx {
-      color: var(--color-text-faint);
-      flex: none;
-    }
-    .principle-text {
-      color: var(--color-text);
-      max-width: 40ch;
     }
   </style>
 </BaseLayout>

@@ -4,7 +4,7 @@ const branch =
   process.env.GITHUB_BRANCH ||
   process.env.VERCEL_GIT_COMMIT_REF ||
   process.env.HEAD ||
-  "cms/tina-prototype";
+  "main";
 
 export default defineConfig({
   branch,
@@ -26,6 +26,71 @@ export default defineConfig({
 
   schema: {
     collections: [
+      {
+        name: "page",
+        label: "Pages",
+        path: "content/pages",
+        format: "md",
+        fields: [
+          {
+            type: "string",
+            name: "title",
+            label: "Page Title",
+            isTitle: true,
+            required: true,
+          },
+          {
+            type: "string",
+            name: "eyebrow",
+            label: "Eyebrow",
+            required: true,
+          },
+          {
+            type: "string",
+            name: "headline",
+            label: "Headline",
+            ui: {
+              component: "textarea",
+            },
+            required: true,
+          },
+          {
+            type: "string",
+            name: "subheadline",
+            label: "Subheadline",
+            ui: {
+              component: "textarea",
+            },
+            required: true,
+          },
+          {
+            type: "string",
+            name: "primaryCtaLabel",
+            label: "Primary CTA Label",
+          },
+          {
+            type: "string",
+            name: "primaryCtaHref",
+            label: "Primary CTA URL",
+          },
+          {
+            type: "string",
+            name: "secondaryCtaLabel",
+            label: "Secondary CTA Label",
+          },
+          {
+            type: "string",
+            name: "secondaryCtaHref",
+            label: "Secondary CTA URL",
+          },
+          {
+            type: "rich-text",
+            name: "body",
+            label: "Internal Notes",
+            isBody: true,
+          },
+        ],
+      },
       {
         name: "blog",
         label: "Blog",

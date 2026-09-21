@@ -30,11 +30,13 @@ async function checkFile(file) {
   // look for date: "YYYY-MM-DD" (date-only)
   const dateOnly = fm.match(/^date:\s*"(\d{4}-\d{2}-\d{2})"$/m);
   // look for draft: "true" or draft: "false" (quoted booleans)
-  const draftQuoted = fm.match(/^draft:\s*['"]?(true|false|yes|no)['"]?$/im);
+  const draftQuoted = fm.match(
+    /^draft:\s*(?:(["'])(true|false|yes|no)\1|(yes|no))\s*$/im,
+  );
 
   const res = {};
   if (dateOnly) res.date = dateOnly[1];
-  if (draftQuoted) res.draft = draftQuoted[1].toLowerCase();
+  if (draftQuoted) res.draft = (draftQuoted[2] ?? draftQuoted[3]).toLowerCase();
   if (Object.keys(res).length === 0) return null;
   return { file, ...res };
 }

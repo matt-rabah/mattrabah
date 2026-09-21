@@ -2,53 +2,27 @@ name: Validate frontmatter
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch: {}
 
 jobs:
-  validate-frontmatter:
+  frontmatter:
+    name: Check frontmatter
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Use Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: "22.x"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
 
-      name: Frontmatter Validation
-
-      on:
-        push:
-          branches:
-            - main
-        pull_request:
-          branches:
-            - main
-        workflow_dispatch: {}
-
-      jobs:
-        frontmatter:
-          name: Check frontmatter
-          runs-on: ubuntu-latest
-          steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
-
-            - name: Use Node.js 22
-              uses: actions/setup-node@v4
-              with:
-                node-version: '22.x'
-                cache: 'npm'
-
-            - name: Install dependencies
-              run: npm ci
-
-            - name: Run frontmatter validator
-              run: npm run check-frontmatter
+      - name: Run frontmatter validator
+        run: npm run check-frontmatter

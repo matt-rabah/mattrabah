@@ -70,22 +70,43 @@ const work = [
 >
   <section class="hero">
     <div class="container">
-      <p class="eyebrow reveal reveal-1">Portfolio</p>
-      <h1 class="display reveal reveal-2">Selected work.</h1>
+      <div class="hero-badge">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        <span>Proven Case Studies</span>
+      </div>
+      <h1 class="display reveal reveal-1">Selected work.</h1>
       <p
-        class="lead reveal reveal-3"
-        style="max-width:48ch; margin-top:var(--space-6)"
+        class="lead reveal reveal-2"
+        style="max-width:54ch; margin-top:var(--space-4)"
       >
-        A closer look at my role, the work, and the outcomes across Cadence Lab,
-        Shinola, and NeuroSync.
+        A closer look at my role, operational frameworks, and tangible business
+        outcomes across Cadence Lab, Shinola, and NeuroSync.
       </p>
     </div>
   </section>
+
+  <!-- Sticky Project Navigator -->
+  <nav class="case-nav" aria-label="Portfolio Projects">
+    <div class="container case-nav-inner">
+      {work.map((w, idx) => (
+        <a href={`#${w.id}`} class="case-nav-link">
+          <span class="nav-idx">0{idx + 1}</span>
+          <span class="nav-name">{w.title}</span>
+          <span class="nav-arrow" aria-hidden="true">
+            ↓
+          </span>
+        </a>
+      ))}
+    </div>
+  </nav>
 
   {work.map((w, i) => (
     <section id={w.id} class={`section case ${i % 2 ? "section--alt" : ""}`}>
       <div class="container case-grid">
         <aside class="case-aside">
+          <span class="case-number meta" aria-hidden="true">
+            PROJECT 0{i + 1}
+          </span>
           <p class="meta" style="color:var(--color-text-accent)">
             {w.kicker}
           </p>
@@ -107,8 +128,11 @@ const work = [
             <p class="body">{w.approach}</p>
           </div>
           <div class="case-block case-block--result">
-            <p class="case-label">The result</p>
-            <p class="body">{w.result}</p>
+            <div class="result-badge">
+              <span class="result-dot" aria-hidden="true"></span>
+              <span>Validated Outcome</span>
+            </div>
+            <p class="body result-body">{w.result}</p>
           </div>
         </div>
       </div>
@@ -117,10 +141,95 @@ const work = [
 
   <style>
     .hero {
-      padding-block: clamp(3rem, 7vw, 5rem) 3rem;
+      padding-block: clamp(3rem, 7vw, 5rem) 2.5rem;
     }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.35rem 0.95rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--color-border-strong);
+      background: color-mix(
+        in srgb,
+        var(--color-surface-raised) 80%,
+        transparent
+      );
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      color: var(--color-text-subtle);
+      margin-bottom: 1.5rem;
+    }
+    .pulse-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background: var(--neon-cyan);
+      box-shadow: 0 0 10px var(--neon-cyan);
+      animation: pulse-glow 2.4s infinite ease-in-out;
+    }
+    @keyframes pulse-glow {
+      0%,
+      100% {
+        opacity: 0.4;
+        transform: scale(0.85);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+    }
+
+    /* Sticky Project Navigator */
+    .case-nav {
+      position: sticky;
+      top: 4.5rem;
+      z-index: 10;
+      background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--color-border);
+      border-top: 1px solid var(--color-border);
+      padding-block: 0.75rem;
+    }
+    .case-nav-inner {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      overflow-x: auto;
+    }
+    .case-nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.85rem;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      color: var(--color-text-subtle);
+      text-decoration: none;
+      border: 1px solid transparent;
+      white-space: nowrap;
+      transition: all 180ms ease;
+    }
+    .case-nav-link:hover {
+      color: var(--neon-cyan);
+      border-color: rgba(0, 229, 255, 0.3);
+      background: rgba(0, 229, 255, 0.08);
+    }
+    .nav-idx {
+      color: var(--neon-cyan);
+      font-weight: 600;
+    }
+    .nav-arrow {
+      font-size: 0.85em;
+      opacity: 0.7;
+    }
+
     .case {
-      scroll-margin-top: 5rem;
+      scroll-margin-top: 8.5rem;
     }
     .case-grid {
       display: grid;
@@ -138,12 +247,18 @@ const work = [
       gap: var(--space-3);
       align-content: start;
       position: sticky;
-      top: 5.5rem;
+      top: 9rem;
     }
     @media (max-width: 54rem) {
       .case-aside {
         position: static;
       }
+    }
+    .case-number {
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.1em;
+      color: var(--color-text-faint);
     }
     .case-title {
       margin-top: var(--space-1);
@@ -177,11 +292,39 @@ const work = [
       max-width: 56ch;
     }
     .case-block--result {
-      padding-left: var(--space-5);
-      border-left: 2px solid var(--color-accent);
+      padding: var(--space-5);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border-accent);
+      background: color-mix(
+        in srgb,
+        var(--color-surface-raised) 70%,
+        transparent
+      );
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
     }
-    .case-block--result .body {
+    .result-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--neon-cyan);
+      font-weight: 600;
+    }
+    .result-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--neon-cyan);
+      box-shadow: 0 0 6px var(--neon-cyan);
+    }
+    .result-body {
       color: var(--color-text);
+      line-height: 1.6;
     }
   </style>
 </BaseLayout>

@@ -1,2 +1,2 @@
 npx lint-staged
-npx astro check
+ASTRO_TELEMETRY_DISABLED=1 npx astro check

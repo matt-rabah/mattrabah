@@ -3,7 +3,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button.astro";
 import Lozenge from "../components/lozenge.astro";
 import Tag from "../components/ui/Tag.astro";
-import CyberHeroCanvas from "../components/CyberHeroCanvas.svelte";
 import TiltCard from "../components/TiltCard.svelte";
 import { getCollection } from "astro:content";
 
@@ -60,7 +59,6 @@ const writing = (await getCollection("blog", ({ data }) => !data.draft))
 
 <BaseLayout title="Matt Rabah">
   <section class="portfolio-intro">
-    <CyberHeroCanvas client:idle />
     <div class="container hero-content">
       <div class="cyber-badge reveal reveal-1">
         <span class="pulse-dot" aria-hidden="true"></span>

@@ -203,38 +203,38 @@
 }
 
 /* ==========================================================================
-   DARK — SLEEK OBSIDIAN & CYBER-MINIMALISM
+   DARK — SHADCN ZINC & CYBER MINIMALISM (zel.shadcn.io inspired)
    ========================================================================== */
 
 :root[data-theme="dark"] {
-  --color-surface: #0a0d0f;
-  --color-surface-sunken: #06080a;
-  --color-surface-raised: #11151a;
-  --color-surface-hover: #171d24;
-  --color-surface-strong: #1f2730;
+  --color-surface: #09090b;
+  --color-surface-sunken: #000000;
+  --color-surface-raised: #121215;
+  --color-surface-hover: #18181b;
+  --color-surface-strong: #27272a;
 
-  --color-text: #f0f4f7;
-  --color-text-subtle: rgba(240, 244, 247, 0.86);
-  --color-text-subtlest: rgba(240, 244, 247, 0.65);
-  --color-text-faint: rgba(240, 244, 247, 0.45);
-  --color-text-disabled: rgba(240, 244, 247, 0.28);
-  --color-text-inverse: #0a0d0f;
+  --color-text: #fafafa;
+  --color-text-subtle: #a1a1aa;
+  --color-text-subtlest: #71717a;
+  --color-text-faint: #52525b;
+  --color-text-disabled: #3f3f46;
+  --color-text-inverse: #09090b;
   --color-text-accent: #00e5ff;
 
-  --color-link: #f0f4f7;
+  --color-link: #fafafa;
   --color-link-hover: #00e5ff;
 
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-strong: rgba(255, 255, 255, 0.16);
-  --color-border-heavy: rgba(255, 255, 255, 0.26);
+  --color-border: #27272a;
+  --color-border-strong: #3f3f46;
+  --color-border-heavy: #52525b;
   --color-border-accent: rgba(0, 229, 255, 0.4);
 
   --color-focus: #00e5ff;
 
   --color-accent: #00e5ff;
-  --color-accent-hover: #40ebff;
-  --color-accent-bg: rgba(0, 229, 255, 0.12);
-  --color-on-accent: #0a0d0f;
+  --color-accent-hover: #38bdf8;
+  --color-accent-bg: rgba(0, 229, 255, 0.1);
+  --color-on-accent: #09090b;
 
   --color-footer-bg: var(--color-surface);
   --color-footer-text: var(--color-text);

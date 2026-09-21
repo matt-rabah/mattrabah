@@ -12,24 +12,33 @@ const work = [
     href: "/work#cadence-lab",
     kicker: "Independent practice",
     title: "Cadence Lab",
-    line: "Developed customer journey diagnostics, onboarding frameworks, and retention processes for service businesses.",
-    tags: ["Lifecycle design", "Retention"],
+    service: "Lifecycle Diagnostics & Retention",
+    duration: "Ongoing Advisory",
+    year: "2024 — 2026",
+    line: "Customer journey diagnostics, onboarding frameworks, and retention processes for high-touch service businesses.",
+    tags: ["Lifecycle design", "Retention", "CRM Ops"],
   },
   {
     index: "02",
     href: "/work#shinola",
     kicker: "Brand-side retail",
     title: "Shinola",
+    service: "Enterprise Portfolio CX",
+    duration: "Detroit Flagship",
+    year: "2021 — 2024",
     line: "Managed corporate accounts at the Detroit flagship, connecting personal client service with Salesforce segmentation and account process.",
-    tags: ["Portfolio growth", "Salesforce"],
+    tags: ["Portfolio growth", "Salesforce", "Executive CX"],
   },
   {
     index: "03",
     href: "/work#neurosync",
     kicker: "Healthtech",
     title: "NeuroSync",
+    service: "Customer Success 0-to-1",
+    duration: "Clinical Platform",
+    year: "2020 — 2021",
     line: "Built a customer success function for a clinical platform, from onboarding and adoption tracking to renewal readiness.",
-    tags: ["Customer success", "Implementation"],
+    tags: ["Customer success", "Implementation", "Healthtech"],
   },
 ];
 
@@ -85,6 +94,41 @@ const writing = (await getCollection("blog", ({ data }) => !data.draft))
     </div>
   </section>
 
+  <!-- Zel-inspired Operating Manifesto -->
+  <section class="section manifesto-section">
+    <div class="container">
+      <div class="manifesto-card">
+        <div class="manifesto-badge">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span>Operating Philosophy</span>
+        </div>
+        <p class="manifesto-text">
+          <span class="manifesto-emphasis">
+            Customer experience is not a sentiment — it is an operating system.
+          </span>
+          I design the onboarding pathways, account health telemetry, and
+          retention models that turn chaotic post-sale handoffs into predictable
+          revenue and long-term customer trust. Every CRM field, customer
+          signal, and cadence should make ownership visible.
+        </p>
+        <div class="manifesto-metrics">
+          <div class="m-metric">
+            <span class="m-val">7+</span>
+            <span class="m-label">Years in CS & CX</span>
+          </div>
+          <div class="m-metric">
+            <span class="m-val">3</span>
+            <span class="m-label">Core Industries</span>
+          </div>
+          <div class="m-metric">
+            <span class="m-val">100%</span>
+            <span class="m-label">Defensible Outcomes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section section--alt">
     <div class="container">
       <div class="section-head">
@@ -101,6 +145,43 @@ const writing = (await getCollection("blog", ({ data }) => !data.draft))
           All work
         </Button>
       </div>
+
+      <!-- Zel-inspired Tabular Project Table -->
+      <div class="zel-table-card">
+        <div class="zel-table-header" aria-hidden="true">
+          <span class="th-col th-project">Project</span>
+          <span class="th-col th-service">Discipline & Focus</span>
+          <span class="th-col th-duration">Scope / Engagement</span>
+          <span class="th-col th-year">Timeline</span>
+        </div>
+        <div class="zel-table-list">
+          {work.map((w) => (
+            <a href={w.href} class="zel-table-row">
+              <div class="td-col td-project">
+                <span class="row-num">{w.index}</span>
+                <div class="row-title-box">
+                  <span class="row-title">{w.title}</span>
+                  <span class="row-kicker">{w.kicker}</span>
+                </div>
+              </div>
+              <div class="td-col td-service">
+                <span class="service-text">{w.service}</span>
+              </div>
+              <div class="td-col td-duration">
+                <span class="duration-text">{w.duration}</span>
+              </div>
+              <div class="td-col td-year">
+                <span class="year-text">{w.year}</span>
+                <span class="row-arrow" aria-hidden="true">
+                  ↗
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- 3D Card Showcase -->
       <div class="work-list">
         {work.map((w) => (
           <TiltCard
@@ -204,6 +285,54 @@ const writing = (await getCollection("blog", ({ data }) => !data.draft))
             </span>
           </a>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Zel-inspired Contact Hero Section -->
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-card">
+        <div class="cta-content">
+          <p class="eyebrow">Direct Contact</p>
+          <h2 class="display cta-title">
+            Let’s build better
+            <br />
+            <span class="gradient-text">customer systems.</span>
+          </h2>
+          <p class="body cta-lead">
+            Available for customer experience architecture, implementation
+            advisory, and hands-on CS systems leadership.
+          </p>
+          <div class="cta-actions">
+            <a
+              href="mailto:rabah.matthew@gmail.com"
+              class="btn btn--accent btn--md"
+            >
+              <span>Email Matt</span>
+              <span class="btn-arrow" aria-hidden="true">
+                →
+              </span>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/mattrabah/"
+              target="_blank"
+              rel="noopener"
+              class="btn btn--ghost btn--md"
+            >
+              <span>LinkedIn</span>
+              <span class="btn-arrow" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+            <a href="/resume" class="btn btn--ghost btn--md">
+              <span>View Resume</span>
+              <span class="btn-arrow" aria-hidden="true">
+                →
+              </span>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -405,6 +534,241 @@ const writing = (await getCollection("blog", ({ data }) => !data.draft))
     .writing-row:hover .writing-arrow {
       color: var(--color-text-accent);
       transform: translateX(4px);
+    }
+
+    /* ==========================================================================
+       ZEL-INSPIRED OPERATING MANIFESTO
+       ========================================================================== */
+    .manifesto-section {
+      padding-block: clamp(3rem, 6vw, 5rem);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .manifesto-card {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      background: color-mix(
+        in srgb,
+        var(--color-surface-raised) 60%,
+        transparent
+      );
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: clamp(var(--space-6), 5vw, var(--space-8));
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+    .manifesto-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--color-border-strong);
+      background: var(--color-surface);
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      color: var(--color-text-subtle);
+      width: fit-content;
+    }
+    .manifesto-text {
+      font-size: clamp(1.15rem, 1.05rem + 0.6vw, 1.5rem);
+      line-height: 1.6;
+      color: var(--color-text-subtle);
+      max-width: 60ch;
+      margin: 0;
+    }
+    .manifesto-emphasis {
+      color: var(--color-text);
+      font-weight: 600;
+      display: inline;
+    }
+    .manifesto-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+      gap: var(--space-4);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--color-border);
+    }
+    .m-metric {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .m-val {
+      font-family: var(--font-sans);
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 700;
+      color: var(--color-text);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .m-label {
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      color: var(--color-text-faint);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ==========================================================================
+       ZEL-INSPIRED TABULAR PROJECT DIRECTORY
+       ========================================================================== */
+    .zel-table-card {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      background: var(--color-surface);
+      overflow: hidden;
+      margin-bottom: var(--space-7);
+    }
+    .zel-table-header {
+      display: grid;
+      grid-template-columns: 1.2fr 1.2fr 1.2fr 0.8fr;
+      gap: var(--space-4);
+      padding: var(--space-4) var(--space-5);
+      border-bottom: 1px solid var(--color-border);
+      background: var(--color-surface-raised);
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-faint);
+    }
+    @media (max-width: 52rem) {
+      .zel-table-header {
+        display: none;
+      }
+    }
+    .zel-table-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .zel-table-row {
+      display: grid;
+      grid-template-columns: 1.2fr 1.2fr 1.2fr 0.8fr;
+      gap: var(--space-4);
+      align-items: center;
+      padding: var(--space-4) var(--space-5);
+      border-bottom: 1px solid var(--color-border);
+      color: inherit;
+      text-decoration: none;
+      transition: background-color 150ms ease;
+    }
+    .zel-table-row:last-child {
+      border-bottom: none;
+    }
+    .zel-table-row:hover {
+      background: var(--color-surface-hover);
+    }
+    @media (max-width: 52rem) {
+      .zel-table-row {
+        grid-template-columns: 1fr;
+        gap: var(--space-2);
+        padding: var(--space-4);
+      }
+    }
+    .td-project {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+    .row-num {
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      color: var(--color-text-faint);
+    }
+    .row-title-box {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .row-title {
+      font-weight: 600;
+      color: var(--color-text);
+      font-size: var(--fs-body-sm);
+      transition: color 150ms ease;
+    }
+    .zel-table-row:hover .row-title {
+      color: var(--neon-cyan);
+    }
+    .row-kicker {
+      font-size: var(--fs-meta);
+      color: var(--color-text-faint);
+    }
+    .service-text {
+      font-size: var(--fs-body-sm);
+      color: var(--color-text-subtle);
+    }
+    .duration-text {
+      font-size: var(--fs-meta);
+      font-family: var(--font-mono);
+      color: var(--color-text-faint);
+    }
+    .td-year {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-2);
+    }
+    .year-text {
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      color: var(--color-text-faint);
+    }
+    .row-arrow {
+      font-size: 1.1em;
+      color: var(--color-text-faint);
+      transition:
+        transform 180ms ease,
+        color 180ms ease;
+    }
+    .zel-table-row:hover .row-arrow {
+      color: var(--neon-cyan);
+      transform: translate(2px, -2px);
+    }
+
+    /* ==========================================================================
+       ZEL-INSPIRED CONTACT HERO SECTION
+       ========================================================================== */
+    .cta-section {
+      padding-block: clamp(4rem, 8vw, 6rem);
+      border-top: 1px solid var(--color-border);
+    }
+    .cta-card {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      background: color-mix(
+        in srgb,
+        var(--color-surface-raised) 80%,
+        transparent
+      );
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: clamp(var(--space-6), 6vw, var(--space-9));
+    }
+    .cta-content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      max-width: 60ch;
+    }
+    .cta-title {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      margin: 0;
+    }
+    .cta-lead {
+      color: var(--color-text-subtle);
+      font-size: var(--fs-body);
+      line-height: 1.6;
+      margin: 0;
+    }
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      padding-top: var(--space-3);
     }
   </style>
 </BaseLayout>

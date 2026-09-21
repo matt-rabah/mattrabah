@@ -1,153 +1,47 @@
-/* ==========================================================================
-   tokens.css — Matt Rabah portfolio
-
-   Direction:
-   Cool, restrained, near-monochrome, refined professional system.
-
-   Notes:
-   - Tokens should not force composition.
-   - Layout behavior belongs in base.css/page CSS.
-   - Keep containers controlled so no-image sections do not become tiny islands
-     or over-wide empty fields.
-   ========================================================================== */
-
+/* Shared values for the v0 portfolio layout and existing interactive tools. */
 :root {
-  /* ====================================================================== */
-  /* RAW PALETTE — COOL MONOCHROME                                          */
-  /* ====================================================================== */
-
-  --ice-0: #f7f9fa;
-  --ice-1: #eef2f4;
-  --ice-2: #e3e9ed;
-  --white: #ffffff;
-
-  --graphite-950: #0f1214;
-  --graphite-900: #14181b;
-  --graphite-800: #1b2024;
-  --graphite-700: #2b3338;
-  --graphite-600: #434d54;
-  --graphite-500: #68727a;
-  --graphite-400: #7d8790;
-  --graphite-300: #aeb7bd;
-  --graphite-200: #c9d0d5;
-
-  --rule: rgba(15, 18, 20, 0.09);
-  --rule-2: rgba(15, 18, 20, 0.18);
-  --rule-3: rgba(15, 18, 20, 0.28);
-
-  --signal-500: #d52236;
-  --signal-600: #b7192c;
-  --signal-700: #941325;
-  --signal-soft: rgba(213, 34, 54, 0.075);
-  --signal-rule: rgba(213, 34, 54, 0.24);
-
-  /* ====================================================================== */
-  /* SEMANTIC — LIGHT                                                       */
-  /* ====================================================================== */
-
-  --color-surface: #ffffff;
-  --color-surface-sunken: #f4f4f5;
-  --color-surface-raised: #fafafa;
-  --color-surface-hover: #f0f4f6;
-  --color-surface-strong: var(--ice-2);
-
-  --color-text: var(--graphite-950);
-  --color-text-subtle: rgba(15, 18, 20, 0.84);
-  --color-text-subtlest: var(--graphite-500);
-  --color-text-faint: rgba(15, 18, 20, 0.58);
-  --color-text-disabled: rgba(15, 18, 20, 0.36);
-  --color-text-inverse: var(--ice-0);
-  --color-text-accent: var(--signal-600);
-
-  --color-link: var(--graphite-950);
-  --color-link-hover: var(--signal-600);
-
-  --color-border: var(--rule);
-  --color-border-strong: var(--rule-2);
-  --color-border-heavy: var(--rule-3);
-  --color-border-accent: var(--signal-rule);
-
-  --color-focus: var(--signal-500);
-
-  --color-footer-bg: var(--color-surface);
-  --color-footer-text: var(--color-text);
-  --color-footer-text-subtle: var(--color-text-subtle);
-  --color-footer-text-muted: var(--color-text-subtlest);
-  --color-footer-border: var(--color-border);
-
-  --color-accent: var(--signal-500);
-  --color-accent-hover: var(--signal-600);
-  --color-accent-bg: var(--signal-soft);
-  --color-on-accent: #f9fbfb;
-
-  --status-live-bg: #e7eee9;
-  --status-live-text: #365944;
-
-  --status-prog-bg: #eef2f4;
-  --status-prog-text: #38434a;
-
-  --status-plan-bg: #e9edf2;
-  --status-plan-text: #404b5a;
-
-  --status-draft-bg: #eceff1;
-  --status-draft-text: var(--graphite-500);
-
-  --shadow-card: 0 1px 2px rgba(15, 18, 20, 0.035);
-  --shadow-lift: 0 2px 10px rgba(15, 18, 20, 0.055);
-
-  /* ====================================================================== */
-  /* TYPE                                                                   */
-  /* ====================================================================== */
-
+  color-scheme: dark;
   --font-sans:
     system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-display: var(--font-sans);
-  --font-serif: var(--font-sans);
   --font-wide: var(--font-sans);
-  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
-
-  --fs-display: clamp(2.4rem, 1.5rem + 3vw, 4rem);
-  --fs-statement: clamp(2.2rem, 1.4rem + 3.8vw, 4.4rem);
-
-  --fs-h1: clamp(2.25rem, 1.55rem + 2.8vw, 3.4rem);
-  --fs-h2: clamp(1.75rem, 1.35rem + 1.5vw, 2.35rem);
-  --fs-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
-  --fs-h4: clamp(1.05rem, 1rem + 0.2vw, 1.18rem);
-  --fs-lead: clamp(1.08rem, 1rem + 0.38vw, 1.28rem);
-
-  --fs-body: 1.0625rem;
-  --fs-body-sm: 0.98rem;
-  --fs-meta: 0.85rem;
-  --fs-mono: 0.9rem;
-
-  --fs-blog-title: clamp(2.35rem, 1.45rem + 4.2vw, 4.6rem);
-  --fs-blog-h2: clamp(1.75rem, 1.25rem + 2vw, 2.8rem);
-  --fs-blog-h3: clamp(1.35rem, 1.1rem + 0.9vw, 1.9rem);
-  --fs-blog-body: clamp(1.075rem, 1.02rem + 0.22vw, 1.18rem);
-
-  --lh-display: 1.12;
-  --lh-statement: 1;
-  --lh-head: 1.08;
-  --lh-lead: 1.6;
-  --lh-body: 1.72;
-  --lh-blog: 1.72;
-  --lh-ui: 1.35;
-  --lh-tight: 1.08;
-
-  --tr-display: -0.025em;
-  --tr-head: -0.014em;
-  --tr-wide: -0.04em;
-  --tr-eyebrow: 0.14em;
-
-  --w-reg: 400;
-  --w-med: 500;
-  --w-semi: 600;
-  --w-bold: 700;
-
-  /* ====================================================================== */
-  /* SPACE                                                                  */
-  /* ====================================================================== */
-
+  --font-serif: var(--font-sans);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --color-surface: #090909;
+  --color-surface-sunken: #050505;
+  --color-surface-raised: #111111;
+  --color-surface-hover: #202020;
+  --color-surface-strong: #262626;
+  --color-text: #fafafa;
+  --color-text-subtle: #b8b8b8;
+  --color-text-subtlest: #a3a3a3;
+  --color-text-muted: #a3a3a3;
+  --color-text-faint: #999999;
+  --color-text-inverse: #090909;
+  --color-text-accent: #d2c4ff;
+  --color-border: #292929;
+  --color-border-strong: #404040;
+  --color-border-heavy: #565656;
+  --color-border-accent: #8b5cf6;
+  --color-accent: #a78bfa;
+  --color-accent-hover: #c4b5fd;
+  --color-accent-bg: #211a32;
+  --color-on-accent: #090909;
+  --color-focus: #c4b5fd;
+  --color-link: #fafafa;
+  --color-link-hover: #d2c4ff;
+  --neon-cyan: #a5b4fc;
+  --neon-crimson: #fda4af;
+  --glow-cyan: 0 0 16px #a5b4fc22;
+  --glow-crimson: 0 0 16px #fda4af22;
+  --status-live-bg: #16271d;
+  --status-live-text: #b4dfbf;
+  --status-prog-bg: #202020;
+  --status-prog-text: #ddd;
+  --status-plan-bg: #222;
+  --status-plan-text: #bbb;
+  --status-draft-bg: #222;
+  --status-draft-text: #bbb;
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -156,106 +50,30 @@
   --space-6: 2rem;
   --space-7: 3rem;
   --space-8: 4rem;
-  --space-9: 6rem;
-  --space-10: 8rem;
-  --space-11: 9.375rem;
-  --space-12: 11rem;
-
-  --section-gap-sm: clamp(3rem, 5vw, 5rem);
-  --section-gap-md: clamp(4rem, 7vw, 7.5rem);
-  --section-gap-lg: clamp(5rem, 10vw, 9.375rem);
-  --row-gap: clamp(2rem, 4vw, 4.375rem);
-
-  /* ====================================================================== */
-  /* SHAPE / MOTION / LAYOUT                                                */
-  /* ====================================================================== */
-
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  --space-9: 5rem;
+  --space-10: 6rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
   --radius-pill: 999px;
-
-  --focus-ring: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-focus);
-
-  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --fs-meta: 0.875rem;
+  --fs-body-sm: 0.9375rem;
+  --fs-body: 1rem;
+  --fs-h4: 1.125rem;
+  --fs-h3: 1.25rem;
+  --fs-h2: clamp(1.5rem, 1.25rem + 0.75vw, 2rem);
+  --fs-h1: clamp(1.875rem, 1.5rem + 1.5vw, 2.75rem);
+  --w-reg: 400;
+  --w-med: 500;
+  --w-semi: 600;
+  --w-bold: 700;
+  --lh-body: 1.65;
+  --lh-ui: 1.4;
+  --focus-ring: 0 0 0 3px #a78bfa;
+  --ease: ease;
   --dur-1: 150ms;
-  --dur-2: 320ms;
-  --dur-3: 680ms;
-
-  /*
-     Keep this restrained. Do not solve layout by making the global container
-     enormous. Page-specific composition belongs in base.css/page files.
-  */
-  --max-page: 72rem;
-  --max-wide: 84rem;
-  --max-text: 46rem;
-  --max-copy: 40rem;
-  --max-narrow: 34rem;
-
-  --spring-snappy: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  --spring-smooth: cubic-bezier(0.16, 1, 0.3, 1);
-  --glow-cyan: 0 0 28px -4px rgba(0, 229, 255, 0.35);
-  --glow-crimson: 0 0 28px -4px rgba(240, 68, 86, 0.35);
-  --neon-cyan: #00e5ff;
-  --neon-crimson: #f04456;
-
-  --gutter: clamp(1.5rem, 5vw, 4.5rem);
-}
-
-/* ==========================================================================
-   DARK — SHADCN ZINC & CYBER MINIMALISM (zel.shadcn.io inspired)
-   ========================================================================== */
-
-:root[data-theme="dark"] {
-  --color-surface: #09090b;
-  --color-surface-sunken: #000000;
-  --color-surface-raised: #121215;
-  --color-surface-hover: #18181b;
-  --color-surface-strong: #27272a;
-
-  --color-text: #fafafa;
-  --color-text-subtle: #a1a1aa;
-  --color-text-subtlest: #71717a;
-  --color-text-faint: #52525b;
-  --color-text-disabled: #3f3f46;
-  --color-text-inverse: #09090b;
-  --color-text-accent: #00e5ff;
-
-  --color-link: #fafafa;
-  --color-link-hover: #00e5ff;
-
-  --color-border: #27272a;
-  --color-border-strong: #3f3f46;
-  --color-border-heavy: #52525b;
-  --color-border-accent: rgba(0, 229, 255, 0.4);
-
-  --color-focus: #00e5ff;
-
-  --color-accent: #00e5ff;
-  --color-accent-hover: #38bdf8;
-  --color-accent-bg: rgba(0, 229, 255, 0.1);
-  --color-on-accent: #09090b;
-
-  --color-footer-bg: var(--color-surface);
-  --color-footer-text: var(--color-text);
-  --color-footer-text-subtle: var(--color-text-subtle);
-  --color-footer-text-muted: var(--color-text-subtlest);
-  --color-footer-border: var(--color-border);
-
-  --status-live-bg: rgba(0, 229, 255, 0.15);
-  --status-live-text: #66efff;
-
-  --status-prog-bg: rgba(240, 68, 86, 0.15);
-  --status-prog-text: #ff7585;
-
-  --status-plan-bg: rgba(160, 175, 195, 0.15);
-  --status-plan-text: #d0dbe7;
-
-  --status-draft-bg: rgba(255, 255, 255, 0.06);
-  --status-draft-text: rgba(240, 244, 247, 0.65);
-
-  --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
-  --shadow-lift: 0 12px 32px -4px rgba(0, 0, 0, 0.7), 0 0 24px -6px rgba(0, 229, 255, 0.2);
-
-  --focus-ring: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-focus);
+  --dur-2: 220ms;
+  --shadow-card: none;
+  --shadow-lift: 0 8px 32px #0003;
 }

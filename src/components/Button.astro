@@ -40,91 +40,12 @@ const target = external ? "_blank" : undefined;
   target={target}
   aria-label={ariaLabel}
 >
-  <span><slot /></span>
-  {
-    arrow && (
-      <span class="btn-arrow" aria-hidden="true">
-        →
-      </span>
-    )
-  }
+  <span>
+    <slot />
+  </span>
+  {arrow && (
+    <span class="btn-arrow" aria-hidden="true">
+      →
+    </span>
+  )}
 </Tag>
-<style>
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    border: 1px solid transparent;
-    border-radius: var(--radius-pill);
-    font-family: var(--font-sans);
-    font-weight: var(--w-med);
-    line-height: 1;
-    white-space: nowrap;
-    cursor: pointer;
-    text-decoration: none;
-    transition:
-      background-color var(--dur-1) var(--ease),
-      color var(--dur-1) var(--ease),
-      border-color var(--dur-1) var(--ease),
-      transform var(--dur-1) var(--ease);
-  }
-  .btn:hover {
-    transform: translateY(-1px);
-  }
-  .btn:focus-visible {
-    box-shadow: var(--focus-ring);
-  }
-  .btn--md {
-    padding: 0.7rem 1.25rem;
-    font-size: var(--fs-body-sm);
-  }
-  .btn--sm {
-    padding: 0.5rem 0.95rem;
-    font-size: var(--fs-meta);
-  }
-  .btn-arrow {
-    transition: transform var(--dur-1) var(--ease);
-  }
-  .btn:hover .btn-arrow {
-    transform: translateX(3px);
-  }
-
-  .btn--solid {
-    background: var(--color-text);
-    color: var(--color-surface);
-  }
-  .btn--solid:hover {
-    background: var(--color-accent);
-    color: var(--color-on-accent);
-  }
-  .btn--accent {
-    background: var(--color-accent);
-    color: var(--color-on-accent);
-  }
-  .btn--accent:hover {
-    background: var(--color-accent-hover);
-    color: var(--color-on-accent);
-  }
-  .btn--ghost {
-    border-color: var(--color-border-strong);
-    color: var(--color-text);
-    background: transparent;
-  }
-  .btn--ghost:hover {
-    border-color: var(--color-accent);
-    color: var(--color-text-accent);
-    background: var(--color-accent-bg);
-  }
-  .btn--link {
-    padding-inline: 0;
-    color: var(--color-link);
-    border-radius: var(--radius-sm);
-  }
-  .btn--link:hover {
-    color: var(--color-link-hover);
-    transform: none;
-  }
-  .btn--link:hover span:first-child {
-    text-decoration: underline;
-  }
-</style>

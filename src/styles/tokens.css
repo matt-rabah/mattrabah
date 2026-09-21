@@ -11,8 +11,6 @@
      or over-wide empty fields.
    ========================================================================== */
 
-@import "./fonts.css";
-
 :root {
   /* ====================================================================== */
   /* RAW PALETTE — COOL MONOCHROME                                          */
@@ -47,9 +45,9 @@
   /* SEMANTIC — LIGHT                                                       */
   /* ====================================================================== */
 
-  --color-surface: var(--ice-0);
-  --color-surface-sunken: var(--ice-1);
-  --color-surface-raised: var(--white);
+  --color-surface: #ffffff;
+  --color-surface-sunken: #f4f4f5;
+  --color-surface-raised: #fafafa;
   --color-surface-hover: #f0f4f6;
   --color-surface-strong: var(--ice-2);
 
@@ -71,11 +69,11 @@
 
   --color-focus: var(--signal-500);
 
-  --color-footer-bg: #0f1214;
-  --color-footer-text: #f7f9fa;
-  --color-footer-text-subtle: rgba(247, 249, 250, 0.8);
-  --color-footer-text-muted: rgba(247, 249, 250, 0.56);
-  --color-footer-border: rgba(247, 249, 250, 0.14);
+  --color-footer-bg: var(--color-surface);
+  --color-footer-text: var(--color-text);
+  --color-footer-text-subtle: var(--color-text-subtle);
+  --color-footer-text-muted: var(--color-text-subtlest);
+  --color-footer-border: var(--color-border);
 
   --color-accent: var(--signal-500);
   --color-accent-hover: var(--signal-600);
@@ -101,13 +99,14 @@
   /* TYPE                                                                   */
   /* ====================================================================== */
 
-  --font-display: "Tiempos Headline", Georgia, "Times New Roman", serif;
-  --font-serif: "Tiempos Text", Georgia, serif;
-  --font-sans: "Sohne", "Inter", "Helvetica Neue", Arial, system-ui, sans-serif;
-  --font-wide: "Sohne Breit", var(--font-sans);
-  --font-mono: "Sohne Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+  --font-sans:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: var(--font-sans);
+  --font-serif: var(--font-sans);
+  --font-wide: var(--font-sans);
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
-  --fs-display: clamp(2.8rem, 1.5rem + 5.5vw, 5.6rem);
+  --fs-display: clamp(2.4rem, 1.5rem + 3vw, 4rem);
   --fs-statement: clamp(2.2rem, 1.4rem + 3.8vw, 4.4rem);
 
   --fs-h1: clamp(2.25rem, 1.55rem + 2.8vw, 3.4rem);
@@ -126,7 +125,7 @@
   --fs-blog-h3: clamp(1.35rem, 1.1rem + 0.9vw, 1.9rem);
   --fs-blog-body: clamp(1.075rem, 1.02rem + 0.22vw, 1.18rem);
 
-  --lh-display: 0.98;
+  --lh-display: 1.12;
   --lh-statement: 1;
   --lh-head: 1.08;
   --lh-lead: 1.6;
@@ -171,7 +170,7 @@
   /* SHAPE / MOTION / LAYOUT                                                */
   /* ====================================================================== */
 
-  --radius-sm: 4px;
+  --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-pill: 999px;
@@ -187,7 +186,7 @@
      Keep this restrained. Do not solve layout by making the global container
      enormous. Page-specific composition belongs in base.css/page files.
   */
-  --max-page: 76rem;
+  --max-page: 72rem;
   --max-wide: 84rem;
   --max-text: 46rem;
   --max-copy: 40rem;
@@ -230,11 +229,11 @@
   --color-accent-bg: rgba(240, 90, 107, 0.13);
   --color-on-accent: #111416;
 
-  --color-footer-bg: #f7f9fa;
-  --color-footer-text: #0f1214;
-  --color-footer-text-subtle: rgba(15, 18, 20, 0.82);
-  --color-footer-text-muted: rgba(15, 18, 20, 0.56);
-  --color-footer-border: rgba(15, 18, 20, 0.12);
+  --color-footer-bg: var(--color-surface);
+  --color-footer-text: var(--color-text);
+  --color-footer-text-subtle: var(--color-text-subtle);
+  --color-footer-text-muted: var(--color-text-subtlest);
+  --color-footer-border: var(--color-border);
 
   --status-live-bg: rgba(75, 128, 93, 0.2);
   --status-live-text: #a2d2ad;

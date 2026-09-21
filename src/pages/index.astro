@@ -4,49 +4,32 @@ import Button from "../components/Button.astro";
 import Card from "../components/Card.astro";
 import Lozenge from "../components/lozenge.astro";
 import Tag from "../components/ui/Tag.astro";
-
-const pillars = [
-  {
-    kicker: "Lifecycle",
-    title: "Make progress visible.",
-    body: "Onboarding, adoption, account health, and renewal readiness, in one operating model the team can actually run when the account gets complicated.",
-  },
-  {
-    kicker: "Practical AI",
-    title: "Reduce drag, not judgment.",
-    body: "AI that helps a team prepare faster, summarize context, and surface risk earlier — never another place to check, never a way to blur who owns what.",
-  },
-  {
-    kicker: "Change",
-    title: "Make process stick.",
-    body: "Cadence, handoffs, and CRM discipline that hold up under real workload — not a process that only works when everyone remembers it.",
-  },
-];
+import { getCollection } from "astro:content";
 
 const work = [
   {
     index: "01",
-    href: "/work#neurosync",
-    kicker: "Healthtech",
-    title: "NeuroSync",
-    line: "Stood up customer success from scratch for a clinical platform — onboarding, adoption, and a renewal motion that held under real operational pressure.",
-    tags: ["Customer success", "Implementation"],
+    href: "/work#cadence-lab",
+    kicker: "Independent practice",
+    title: "Cadence Lab",
+    line: "Developed customer journey diagnostics, onboarding frameworks, and retention processes for service businesses.",
+    tags: ["Lifecycle design", "Retention"],
   },
   {
     index: "02",
     href: "/work#shinola",
     kicker: "Brand-side retail",
     title: "Shinola",
-    line: "Ran a corporate account portfolio at the Detroit flagship — high-touch client experience and Salesforce process, kept personal at scale.",
+    line: "Managed corporate accounts at the Detroit flagship, connecting personal client service with Salesforce segmentation and account process.",
     tags: ["Portfolio growth", "Salesforce"],
   },
   {
     index: "03",
-    href: "/work#context-by-design",
-    kicker: "Consulting",
-    title: "Context By Design",
-    line: "Built lifecycle and retention frameworks for service businesses that had relationships but no system to see where customers stalled.",
-    tags: ["Lifecycle design", "Retention"],
+    href: "/work#neurosync",
+    kicker: "Healthtech",
+    title: "NeuroSync",
+    line: "Built a customer success function for a clinical platform, from onboarding and adoption tracking to renewal readiness.",
+    tags: ["Customer success", "Implementation"],
   },
 ];
 
@@ -64,120 +47,63 @@ const tools = [
   },
 ];
 
-const writing = [
-  {
-    meta: "AI in CX",
-    title: "AI in CX fails when it starts with tools instead of workflows.",
-  },
-  {
-    meta: "Implementation",
-    title: "The sales-to-implementation handoff is a risk control.",
-  },
-  {
-    meta: "Customer success",
-    title: "Health scores fail when no one owns the next action.",
-  },
-];
+const writing = (await getCollection("blog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3)
+  .map(({ id, data }) => ({
+    title: data.title,
+    meta: data.category,
+    href: `/blog/${id}/`,
+  }));
 ---
 
 <BaseLayout title="Matt Rabah">
-  <section class="hero">
-    <div class="container">
-      <p class="eyebrow reveal reveal-1">Customer lifecycle · AI workflows</p>
-      <h1 class="display reveal reveal-2">
-        The customer felt the system long before they complained.
-      </h1>
-      <p class="lead hero-lead reveal reveal-3">
-        I build the lifecycle systems, CRM discipline, and AI workflows that let
-        a team see that quiet failure early — while there's still time to do
-        something about it.
-      </p>
-      <div class="hero-actions reveal reveal-4">
-        <Button href="/work" variant="solid" arrow>See the work</Button>
-        <Button href="/contact" variant="ghost">Start a conversation</Button>
-      </div>
-    </div>
-  </section>
-
-  <section class="statement section--alt">
-    <div class="container statement-inner">
-      <h2 class="statement-title">
-        Customer experience is <em>made or lost</em> in the operating model.
-      </h2>
-      <p class="statement-sub">
-        Not in the brand, not in the dashboard. In who owns the next action,
-        what survives a handoff, and whether the team can see where the customer
-        actually is.
-      </p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">What I build</p><h2 class="h2">
-            Three places the lifecycle breaks — and holds.
-          </h2>
-        </div>
-      </div>
-      <div class="pillars">
-        {
-          pillars.map((p) => (
-            <article class="pillar">
-              <p class="pillar-kicker">{p.kicker}</p>
-              <h3 class="pillar-title">{p.title}</h3>
-              <p class="pillar-body">{p.body}</p>
-            </article>
-          ))
-        }
-      </div>
-    </div>
+  <section class="portfolio-intro container">
+    <p class="meta">Matt Rabah · Detroit, Michigan</p>
+    <h1>
+      Customer experience,
+      <br />
+      in practice.
+    </h1>
+    <p class="lead">
+      Selected work in customer success, implementation, and CRM — across
+      healthtech, retail, and my independent practice at Cadence Lab.
+    </p>
+    <a class="intro-link" href="/about">
+      About me <span aria-hidden="true">↗</span>
+    </a>
   </section>
 
   <section class="section section--alt">
     <div class="container">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Selected work</p><h2 class="h2">Selected work</h2>
+          <h2 class="h2">Selected work</h2>
         </div>
-        <Button href="/work" variant="link" arrow>All work</Button>
+        <Button href="/work" variant="link" arrow>
+          All work
+        </Button>
       </div>
       <div class="work-list">
-        {
-          work.map((w) => (
-            <Card href={w.href} index={w.index}>
-              <p class="meta" style="color:var(--color-text-accent)">
-                {w.kicker}
-              </p>
-              <h3 class="h3" style="margin-top:var(--space-2)">
-                {w.title}
-              </h3>
-              <p class="body" style="margin-top:var(--space-3); max-width:46ch">
-                {w.line}
-              </p>
-              <div class="chip-row">
-                {w.tags.map((t) => (
-                  <Tag text={t} />
-                ))}
-              </div>
-            </Card>
-          ))
-        }
+        {work.map((w) => (
+          <Card href={w.href} index={w.index}>
+            <p class="meta" style="color:var(--color-text-accent)">
+              {w.kicker}
+            </p>
+            <h3 class="h3" style="margin-top:var(--space-2)">
+              {w.title}
+            </h3>
+            <p class="body" style="margin-top:var(--space-3); max-width:46ch">
+              {w.line}
+            </p>
+            <div class="chip-row">
+              {w.tags.map((t) => (
+                <Tag text={t} />
+              ))}
+            </div>
+          </Card>
+        ))}
       </div>
-    </div>
-  </section>
-
-  <section class="quote-band">
-    <div class="container">
-      <blockquote class="quote">
-        <span class="quote-mark">&ldquo;</span>A weak handoff turns a closed
-        deal into implementation risk. The record should help the next person,
-        before the customer has to repeat themselves.<span class="quote-mark"
-          >&rdquo;</span
-        >
-        <cite class="quote-cite">Operating principle no. 02</cite>
-      </blockquote>
     </div>
   </section>
 
@@ -185,25 +111,21 @@ const writing = [
     <div class="container">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Tools for the moments accounts go quiet.</p><h2
-            class="h2"
-          >
-            Tools for the moments accounts go quiet.
-          </h2>
+          <h2 class="h2">Tools & experiments</h2>
         </div>
-        <Button href="/tools" variant="link" arrow>View tools</Button>
+        <Button href="/tools" variant="link" arrow>
+          Explore prototypes
+        </Button>
       </div>
       <div class="tool-row">
-        {
-          tools.map((t) => (
-            <Card href="/tools" flat>
-              <Lozenge label={t.label} status={t.status as any} />
-              <h3 class="h4" style="margin-top:var(--space-3)">
-                {t.title}
-              </h3>
-            </Card>
-          ))
-        }
+        {tools.map((t) => (
+          <Card href="/tools" flat>
+            <Lozenge label={t.label} status={t.status as any} />
+            <h3 class="h4" style="margin-top:var(--space-3)">
+              {t.title}
+            </h3>
+          </Card>
+        ))}
       </div>
     </div>
   </section>
@@ -212,73 +134,81 @@ const writing = [
     <div class="container">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Writing</p><h2 class="h2">Writing</h2>
+          <h2 class="h2">Writing</h2>
         </div>
-        <Button href="/blog" variant="link" arrow>All writing</Button>
+        <Button href="/blog" variant="link" arrow>
+          All writing
+        </Button>
       </div>
       <div class="writing-list">
-        {
-          writing.map((w, idx) => (
-            <a href="/blog" class="writing-row">
-              <span class="meta writing-idx">
-                {String(idx + 1).padStart(2, "0")}
+        {writing.map((w, idx) => (
+          <a href={w.href} class="writing-row">
+            <span class="meta writing-idx">
+              {String(idx + 1).padStart(2, "0")}
+            </span>
+            <span class="writing-text">
+              <span class="meta" style="color:var(--color-text-accent)">
+                {w.meta}
               </span>
-              <span class="writing-text">
-                <span class="meta" style="color:var(--color-text-accent)">
-                  {w.meta}
-                </span>
-                <span class="h3 writing-title">{w.title}</span>
-              </span>
-              <span class="writing-arrow" aria-hidden="true">
-                &rarr;
-              </span>
-            </a>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <section class="statement section--alt">
-    <div class="container statement-inner">
-      <p class="eyebrow eyebrow--plain">Let's talk</p>
-      <h2 class="statement-title">
-        If your lifecycle runs on <em>heroics,</em> that's the problem I fix.
-      </h2>
-      <div class="hero-actions" style="justify-content:center">
-        <Button href="/contact" variant="accent" arrow
-          >Start a conversation</Button
-        >
-        <Button href="/about" variant="ghost">More about me</Button>
+              <span class="h3 writing-title">{w.title}</span>
+            </span>
+            <span class="writing-arrow" aria-hidden="true">
+              &rarr;
+            </span>
+          </a>
+        ))}
       </div>
     </div>
   </section>
 
   <style>
-    .hero {
-      padding-block: clamp(var(--space-10), 18vw, 12rem) var(--space-9);
+    .portfolio-intro {
+      padding-block: clamp(3rem, 7vw, 5.5rem) 3rem;
     }
-    .hero .display {
-      max-width: 15ch;
-      margin-top: var(--space-5);
+    .portfolio-intro h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 600;
+      line-height: 1.12;
+      letter-spacing: -0.045em;
+      margin-block: 1.25rem;
     }
-    .hero-lead {
-      max-width: 50ch;
-      margin-top: var(--space-6);
+    .portfolio-intro .lead {
+      max-width: 58ch;
     }
-    .hero-actions {
+    .intro-link {
+      display: inline-flex;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      font-size: 0.9375rem;
+      text-underline-offset: 0.3em;
+    }
+    .section {
+      padding-block: 2.5rem;
+    }
+    .section-head {
       display: flex;
-      gap: var(--space-3);
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      max-width: none;
+      margin-bottom: 1.5rem;
       flex-wrap: wrap;
-      margin-top: var(--space-7);
     }
+    .section-head > div {
+      gap: 0;
+    }
+    .section-head .h2 {
+      font-size: 1.35rem;
+      letter-spacing: -0.025em;
+    }
+
     .work-list {
       display: grid;
       gap: var(--space-4);
     }
     @media (min-width: 52rem) {
       .work-list {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
     }
     .chip-row {

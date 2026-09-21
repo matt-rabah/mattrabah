@@ -1,0 +1,67 @@
+{
+  "name": "Matthew Rabah",
+  "headline": "Customer Success Operations · Implementation · CRM",
+  "location": "Detroit, Michigan",
+  "email": "rabah.matthew@gmail.com",
+  "website": "https://mattrabah.com",
+  "linkedin": "https://www.linkedin.com/in/mattrabah/",
+  "summary": "Customer success operations leader with 8+ years across healthtech, retail, and consulting. Experience in account health scoring, implementation, scaled customer engagement, and CRM process design. M.S. in Customer Experience Management.",
+  "experience": [
+    {
+      "company": "Cadence Lab",
+      "title": "Customer Success Consultant",
+      "dates": "Sep 2024 - Present",
+      "bullets": [
+        "Redesigned customer lifecycles for six clients, improving early adoption and repeat engagement by an average of 14%.",
+        "Reworked sales-to-service handoffs with Salesforce workflows and onboarding standards, cutting time-to-value 18%.",
+        "Built customer health frameworks and HubSpot lifecycle automations; the automations saved each team member four hours per week."
+      ]
+    },
+    {
+      "company": "Shinola",
+      "title": "Customer Experience Manager",
+      "dates": "Aug 2022 - Sep 2024",
+      "bullets": [
+        "Directed customer experience for the Detroit flagship and a corporate portfolio generating $8M in annual revenue.",
+        "Segmented 1,100+ accounts in Salesforce, increasing CRM-driven outreach from 32% to 86%.",
+        "Reworked service workflows and customer handoffs, reducing escalations 35%."
+      ]
+    },
+    {
+      "company": "NeuroSync",
+      "title": "Customer Success Manager",
+      "dates": "Apr 2019 - Jun 2022",
+      "bullets": [
+        "Managed implementation across 32 clinical accounts, from stakeholder alignment and configuration through training and first-90-day support.",
+        "Maintained 95% customer retention over three years; active product usage increased from 45% to 72% after rebuilding onboarding around clinical workflows.",
+        "Hired, managed, and coached three account executives and developed the lifecycle and adoption playbook."
+      ]
+    },
+    {
+      "company": "NeuroSync",
+      "title": "Account Manager",
+      "dates": "Mar 2018 - Apr 2019",
+      "bullets": [
+        "Managed 18 clinical sites across multiple territories and established customer relationships that supported consistent implementation handoffs."
+      ]
+    }
+  ],
+  "skills": "Account health scoring; adoption analytics; onboarding and implementation; renewal and retention operations; playbooks; executive reporting; CRM data quality; Salesforce; HubSpot; Gainsight; ChurnZero; Delighted.",
+  "education": [
+    {
+      "degree": "M.S., Customer Experience Management",
+      "institution": "Michigan State University, Eli Broad College of Business",
+      "date": "May 2025"
+    },
+    {
+      "degree": "B.S., Organizational Behavior",
+      "institution": "Oakland University",
+      "date": "May 2012"
+    }
+  ],
+  "certifications": [
+    "Salesforce Certified Agentforce Specialist · Jul 2026",
+    "HubSpot Inbound Marketing · Sep 2025",
+    "Google Business Intelligence Professional Certificate · Jan 2025"
+  ]
+}

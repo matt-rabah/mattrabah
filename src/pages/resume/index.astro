@@ -1,0 +1,172 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import resume from "../../data/resume.json";
+---
+
+<BaseLayout
+  title="Resume"
+  description={`Resume of ${resume.name}: customer success operations, implementation, and CRM experience.`}
+>
+  <article class="container resume">
+    <header class="resume-header">
+      <div>
+        <p class="eyebrow">Resume</p>
+        <h1 class="h1">{resume.name}</h1>
+        <p class="lead">{resume.headline}</p>
+        <p class="contact-line">
+          {resume.location} ·{" "}
+          <a href={`mailto:${resume.email}`}>{resume.email}</a> ·{" "}
+          <a href={resume.linkedin}>LinkedIn</a>
+        </p>
+      </div>
+      <a class="download" href="/downloads/Matthew-Rabah-Resume.pdf" download>
+        Download PDF <span aria-hidden="true">↓</span>
+      </a>
+    </header>
+    <p class="body summary">{resume.summary}</p>
+    <section aria-labelledby="experience-heading">
+      <h2 id="experience-heading">Experience</h2>
+      {resume.experience.map((job) => (
+        <section class="job" aria-label={`${job.title} at ${job.company}`}>
+          <div class="job-header">
+            <div>
+              <h3>{job.company}</h3>
+              <p>{job.title}</p>
+            </div>
+            <p class="dates">{job.dates}</p>
+          </div>
+          <ul>
+            {job.bullets.map((bullet) => (
+              <li>{bullet}</li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </section>
+    <section aria-labelledby="skills-heading">
+      <h2 id="skills-heading">Skills</h2>
+      <p>{resume.skills}</p>
+    </section>
+    <section aria-labelledby="education-heading">
+      <h2 id="education-heading">Education</h2>
+      {resume.education.map((item) => (
+        <div class="education">
+          <h3>{item.degree}</h3>
+          <p>
+            {item.institution} · {item.date}
+          </p>
+        </div>
+      ))}
+    </section>
+    <section aria-labelledby="certifications-heading">
+      <h2 id="certifications-heading">Certifications</h2>
+      <ul>
+        {resume.certifications.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .resume {
+    max-width: 64rem;
+    padding-block: clamp(3rem, 7vw, 5rem);
+  }
+  .resume-header {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .resume-header > div {
+    flex: 1 1 28rem;
+    min-width: 0;
+  }
+  h1 {
+    margin-block: 1rem;
+  }
+  .contact-line {
+    margin-top: 1rem;
+    font-size: 0.9375rem;
+    overflow-wrap: anywhere;
+  }
+  a {
+    text-underline-offset: 0.25em;
+  }
+  .download {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+    font-size: 0.9375rem;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .download:hover {
+    background: var(--color-surface-hover);
+  }
+  .summary {
+    margin-block: 2rem 3rem;
+  }
+  .resume > section {
+    border-top: 1px solid var(--color-border);
+    padding-top: 1.5rem;
+    margin-top: 2rem;
+  }
+  h2 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+  }
+  h3 {
+    font-size: 1.0625rem;
+    font-weight: 600;
+  }
+  .job + .job {
+    margin-top: 2rem;
+  }
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem 2rem;
+    flex-wrap: wrap;
+  }
+  .dates {
+    color: var(--color-text-subtlest);
+    font-size: 0.9375rem;
+  }
+  ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin-top: 0.75rem;
+  }
+  li + li {
+    margin-top: 0.5rem;
+  }
+  .education + .education {
+    margin-top: 1rem;
+  }
+  @media print {
+    :global(.masthead),
+    :global(.footer),
+    :global(.skip-link),
+    .download {
+      display: none;
+    }
+    .resume {
+      padding: 0;
+      max-width: none;
+      color: #111;
+    }
+    .job,
+    .education {
+      break-inside: avoid;
+    }
+  }
+</style>

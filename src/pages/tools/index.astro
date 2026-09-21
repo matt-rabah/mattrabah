@@ -2,27 +2,9 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Tag from "../../components/ui/Tag.astro";
 import Lozenge from "../../components/lozenge.astro";
+import InteractiveToolsSuite from "../../components/tools/InteractiveToolsSuite.svelte";
 
 const tools = [
-  {
-    title: "Handoff Risk Checker",
-    status: "progress",
-    label: "Prototype",
-    body: "Reads a sales promise, stakeholder map, and known constraints, then flags what's likely to become an implementation problem after the customer says yes.",
-    inputs: ["Sales promise", "Stakeholders", "Timeline", "Constraints"],
-  },
-  {
-    title: "Customer Health Signal Mapper",
-    status: "progress",
-    label: "Prototype",
-    body: "Turns scattered account signals into likely risk patterns, root causes, and a next action. Built for account reviews and portfolio triage.",
-    inputs: [
-      "Usage signals",
-      "Relationship changes",
-      "Support volume",
-      "Renewal timing",
-    ],
-  },
   {
     title: "Renewal Readiness Diagnostic",
     status: "planned",
@@ -49,32 +31,50 @@ const tools = [
 
 <BaseLayout
   title="Tools"
-  description="Practical AI tools from Matt Rabah for CX, customer success, and implementation teams — handoff risk, account health, renewal readiness."
+  description="Interactive practical AI diagnostics and tools from Matt Rabah for CX, customer success, and implementation teams — handoff risk, account health, renewal readiness."
 >
   <section class="hero">
     <div class="container">
-      <p class="eyebrow reveal reveal-1">Practical AI</p>
-      <h1 class="display reveal reveal-2">Small tools for real problems.</h1>
+      <div class="hero-badge">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        <span>Interactive Diagnostics Suite</span>
+      </div>
+      <h1 class="display reveal reveal-1">Small tools for real problems.</h1>
       <p
-        class="lead reveal reveal-3"
-        style="max-width:48ch; margin-top:var(--space-6)"
+        class="lead reveal reveal-2"
+        style="max-width:54ch; margin-top:var(--space-4)"
       >
-        Honest prototypes that reduce the friction teams trip over: handoffs,
-        hidden risks, and renewal readiness that shows up before the date.
+        Live, interactive prototypes designed to eliminate customer blindspots:
+        unvalidated handoff promises, silent health decay, and renewal cliff
+        risks.
       </p>
+
+      <div class="suite-wrapper">
+        <InteractiveToolsSuite client:load />
+      </div>
     </div>
   </section>
 
   <section class="section">
-    <div class="container tool-grid">
-      {
-        tools.map((t) => (
+    <div class="container">
+      <div class="section-head">
+        <h2 class="h3">Upcoming Roadmap & Diagnostics</h2>
+        <p class="body-sm text-subtle">
+          Additional operational frameworks currently in design.
+        </p>
+      </div>
+
+      <div class="tool-grid">
+        {tools.map((t) => (
           <article class="tool">
             <div class="tool-head">
-              <h2 class="h3">{t.title}</h2>
+              <h3 class="h4">{t.title}</h3>
               <Lozenge label={t.label} status={t.status as any} />
             </div>
-            <p class="body" style="max-width:50ch">
+            <p
+              class="body-sm"
+              style="max-width:50ch; color:var(--color-text-subtle)"
+            >
               {t.body}
             </p>
             <div class="chip-row">
@@ -83,14 +83,61 @@ const tools = [
               ))}
             </div>
           </article>
-        ))
-      }
+        ))}
+      </div>
     </div>
   </section>
 
   <style>
     .hero {
-      padding-block: clamp(var(--space-9), 14vw, 9rem) var(--space-8);
+      padding-block: clamp(var(--space-9), 12vw, 8rem) var(--space-6);
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.35rem 0.95rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--color-border-strong);
+      background: color-mix(
+        in srgb,
+        var(--color-surface-raised) 80%,
+        transparent
+      );
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      font-family: var(--font-mono);
+      font-size: var(--fs-meta);
+      color: var(--color-text-subtle);
+      margin-bottom: 1.5rem;
+    }
+    .pulse-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background: var(--neon-cyan);
+      box-shadow: 0 0 10px var(--neon-cyan);
+      animation: pulse-glow 2.4s infinite ease-in-out;
+    }
+    @keyframes pulse-glow {
+      0%,
+      100% {
+        opacity: 0.4;
+        transform: scale(0.85);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+    }
+    .suite-wrapper {
+      margin-top: var(--space-6);
+    }
+    .section-head {
+      margin-bottom: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
     }
     .tool-grid {
       display: grid;
